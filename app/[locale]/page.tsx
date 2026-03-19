@@ -66,11 +66,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         <div className="flex items-center justify-between gap-4">
           <div>
             <h2 className="text-2xl font-black tracking-tight sm:text-3xl">{t.featuredProducts}</h2>
-            <p className="mt-1 text-sm text-muted">
-              {locale === "ar" ? "منتجات مصممة لتتحول بشكل أفضل على الهاتف والكمبيوتر." : "Products presented with stronger trust and conversion-focused UI."}
-            </p>
           </div>
-          <Link href={`/${locale}/products`} className="text-sm font-semibold text-brand hover:text-brand-hover">
+          <Link href={`/${locale}/products`} className="btn h-12 rounded-2xl bg-white px-5 text-base font-semibold text-[#315efb] hover:bg-white/90 hover:text-[#274de0]">
             {t.viewAll}
           </Link>
         </div>
