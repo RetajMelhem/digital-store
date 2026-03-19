@@ -75,7 +75,7 @@ export function ReviewForm({ locale, productId }: { locale: Locale; productId: s
             </button>
           ))}
         </div>
-        <RatingStars rating={rating} size="lg" />
+        <RatingStars rating={rating} size="lg" rtl={locale === "ar"} />
       </div>
 
       <div>

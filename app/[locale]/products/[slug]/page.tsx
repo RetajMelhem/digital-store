@@ -45,7 +45,7 @@ export default async function ProductDetailsPage({
           <div className="space-y-3">
             <h1 className="text-3xl font-black tracking-tight sm:text-4xl">{name}</h1>
             <div className="flex flex-wrap items-center gap-2 text-sm text-muted">
-              <RatingStars rating={summary.average} size="lg" />
+              <RatingStars rating={summary.average} size="lg" rtl={locale === "ar"} />
               <span className="font-bold text-foreground">{summary.average.toFixed(1)}</span>
               <span>({new Intl.NumberFormat(locale).format(summary.totalCount)} {locale === "ar" ? "تقييم" : "reviews"})</span>
             </div>
@@ -89,7 +89,7 @@ export default async function ProductDetailsPage({
                         {new Intl.DateTimeFormat(locale === "ar" ? "ar-JO" : "en-US", { dateStyle: "medium" }).format(review.createdAt)}
                       </div>
                     </div>
-                    <RatingStars rating={review.rating} />
+                    <RatingStars rating={review.rating} rtl={locale === "ar"} />
                   </div>
                 </div>
               ))

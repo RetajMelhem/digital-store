@@ -48,7 +48,7 @@ export function ProductCard({
             {name}
           </Link>
           <div className="flex flex-wrap items-center gap-2 text-sm text-muted">
-            <RatingStars rating={rating} />
+            <RatingStars rating={rating} rtl={locale === "ar"} />
             <span className="font-semibold text-foreground">{rating.toFixed(1)}</span>
             <span>({new Intl.NumberFormat(locale).format(ratingCount)} {locale === "ar" ? "تقييم" : "reviews"})</span>
           </div>

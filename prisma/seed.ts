@@ -207,22 +207,6 @@ const productSeeds: ProductSeed[] = [
     }
   },
   {
-    slug: "snapchat-plus-12M",
-    nameEn: "Snapchat Plus 12M",
-    nameAr: "سناب شات بلس 12 شهر",
-    descriptionEn: "Activation is completed on your personal Snapchat account with Snapchat Plus features for 12 months after payment confirmation.",
-    descriptionAr: "يتم التفعيل على حساب سناب شات الخاص بك مع مزايا Snapchat Plus لمدة 12 شهراً بعد تأكيد الدفع.",
-    category: "Social Media",
-    image: "/images/products/snap chat plus.png",
-    price: 14,
-    deliveryType: "CUSTOMER_ACCOUNT",
-    reviewProfile: {
-      minReviews: 5,
-      maxReviews: 9,
-      ratingWeights: [5, 5, 4, 4, 4]
-    }
-  },
-  {
     slug: "discord-nitro-gaming-1M",
     nameEn: "Discord Nitro Gaming 1M",
     nameAr: "ديسكورد نيترو جيمينج شهر واحد",
