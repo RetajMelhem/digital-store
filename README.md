@@ -1,70 +1,159 @@
-# متجر رقمي ثنائي اللغة - Bilingual Digital Store
+# Digital Store
 
-مشروع متجر ويب رقمي مبني باستخدام **Next.js + TailwindCSS + Prisma + PostgreSQL** لبيع المنتجات الرقمية مثل اشتراكات الذكاء الاصطناعي والخدمات الرقمية.
+A bilingual digital storefront built with Next.js, Tailwind CSS, Prisma, and PostgreSQL. The project is designed for selling digital products with Arabic and English support, a streamlined checkout flow, order tracking, review moderation, and a protected admin area.
 
-## ما الذي تم إصلاحه في هذه النسخة
+## Overview
 
-- إزالة نظام المخزون القديم من المشروع بالكامل.
-- إزالة ملف `.env` الحقيقي من المشروع والإبقاء على `.env.example` فقط.
-- إضافة `.gitignore` لمنع رفع الملفات الحساسة وملفات البناء.
-- تحسين حماية لوحة الإدارة باستخدام **جلسة موقعة** بدل كوكي ثابتة قابلة للتزوير.
-- إضافة **Rate limiting** لمحاولات دخول الإدارة.
-- حماية Server Actions الخاصة بالإدارة بالتحقق من الجلسة نفسها.
-- تحسين حذف المنتجات بإظهار خطأ واضح عند وجود طلبات مرتبطة بالمنتج.
-- توسيع دعم الصور الخارجية في Next.js.
-- تحسين رسالة واتساب لتتضمن تفاصيل أوضح للمستخدم.
+This application provides a lightweight e-commerce workflow for digital products such as subscriptions, private account delivery, and customer-account activation services. It focuses on a simple purchase experience, localized content, and practical store management tools.
 
-## التقنيات المستخدمة
+## Features
 
-- Next.js App Router
+- Arabic and English storefront with localized content
+- Product catalog with categories, pricing, and delivery types
+- Cart and checkout flow optimized for digital orders
+- Order creation with phone-based customer details
+- WhatsApp payment follow-up link generation
+- Admin dashboard for products, orders, and reviews
+- Review moderation workflow
+- Basic rate limiting for order submission and admin login
+- Prisma-based PostgreSQL data layer
+
+## Tech Stack
+
+- Next.js 15
 - React 19
+- TypeScript
 - Tailwind CSS
-- Prisma
+- Prisma ORM
 - PostgreSQL
 - Zod
 
-## التشغيل المحلي
+## Project Structure
+
+```text
+app/          App Router pages, API routes, and admin screens
+components/   Reusable UI components
+lib/          Shared utilities, validation, auth, and constants
+prisma/       Prisma schema, migrations, and seed script
+public/       Static assets
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or later
+- npm
+- PostgreSQL database
+
+### Installation
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Copy the example environment file:
 
 ```bash
 cp .env.example .env
-npm install
-npx prisma generate
-npx prisma migrate dev
+```
+
+3. Update the environment variables in `.env`.
+
+4. Generate the Prisma client:
+
+```bash
+npm run prisma:generate
+```
+
+5. Apply database migrations:
+
+```bash
+npm run prisma:migrate
+```
+
+6. Seed the database with sample products and reviews:
+
+```bash
 npm run prisma:seed
+```
+
+7. Start the development server:
+
+```bash
 npm run dev
 ```
-http://localhost:3000
-## متغيرات البيئة المطلوبة
+
+The application will be available at [http://localhost:3000](http://localhost:3000).
+
+## Environment Variables
+
+Use the following variables in your `.env` file:
 
 ```env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/digital_store?schema=public"
+DATABASE_URL="postgresql://username:password@localhost:5432/digital_store?schema=public"
 ADMIN_PASSWORD="change-this-password"
 ADMIN_SESSION_SECRET="replace-with-a-long-random-secret"
-CLIQ_PHONE="0776323241"
-WHATSAPP_PHONE="962776323241"
+CLIQ_PHONE="your-cliq-number"
+WHATSAPP_PHONE="your-whatsapp-number"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 DEFAULT_LOCALE="ar"
 RATE_LIMIT_WINDOW_MS="60000"
 RATE_LIMIT_MAX_REQUESTS="5"
 ```
 
-## الملاحظات
-
-- يجب تعيين قيمة قوية جدًا لـ `ADMIN_PASSWORD`.
-- يجب تعيين قيمة طويلة وعشوائية لـ `ADMIN_SESSION_SECRET`.
-- المشروع لا يستخدم نظام إدارة مخزون بعد الآن.
-- لا ترفع `.env` أو `node_modules` أو `.next` إلى Git.
-
-## المسارات المهمة
-
-- المتجر: `/{locale}`
-- المنتجات: `/{locale}/products`
-## أوامر مفيدة
+## Available Scripts
 
 ```bash
 npm run dev
 npm run build
+npm run start
+npm run lint
 npm run prisma:generate
 npm run prisma:migrate
 npm run prisma:seed
 ```
+
+## Database Models
+
+The core schema includes:
+
+- `Product` for catalog entries
+- `Order` for customer purchases
+- `OrderItem` for product line items
+- `Review` for product reviews and moderation
+- `OrderStatusEvent` for order history tracking
+
+## Admin Area
+
+The project includes a protected admin interface for:
+
+- Managing products
+- Reviewing recent orders
+- Updating order status
+- Moderating reviews
+
+For production use, make sure you set a strong `ADMIN_PASSWORD` and a long random `ADMIN_SESSION_SECRET`.
+
+## Deployment Notes
+
+- Configure all environment variables in your hosting platform
+- Use a production PostgreSQL database
+- Run Prisma migrations during deployment
+- Do not commit your real `.env` file
+- Replace example values with real production credentials before deploying
+
+The project includes a `vercel-build` script for environments that need Prisma generation, migration deployment, and a production build in one step.
+
+## Security Notes
+
+- Never publish real secrets in `.env.example`
+- Use a unique, high-entropy session secret in production
+- Treat example phone numbers and payment contact details as placeholders
+- Review the repository history before making the project public to ensure no previous secrets were committed
+
+## License
+
+This project is provided as-is. Add a license if you plan to distribute or open-source it publicly.
