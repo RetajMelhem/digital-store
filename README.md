@@ -34,8 +34,6 @@ npm run prisma:seed
 npm run dev
 ```
 http://localhost:3000
-http://localhost:3000/admin-secret-9f3k
-
 ## متغيرات البيئة المطلوبة
 
 ```env
@@ -61,8 +59,6 @@ RATE_LIMIT_MAX_REQUESTS="5"
 
 - المتجر: `/{locale}`
 - المنتجات: `/{locale}/products`
-- لوحة الإدارة: `/admin-secret-9f3k`
-
 ## أوامر مفيدة
 
 ```bash
