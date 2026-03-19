@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+
+  /* Light mode: primary brand and interactive colors */
+  --color-primary: #315efb;
+  --color-primary-hover: #274de0;
+  --color-secondary: #e8eeff;
+  --color-secondary-hover: #dbe4ff;
+  --color-accent: #46b8a4;
+  --color-accent-soft: rgba(70, 184, 164, 0.18);
+  --color-success: #279a79;
+  --color-success-soft: rgba(39, 154, 121, 0.14);
+
+  /* Light mode: backgrounds and surfaces */
+  --color-bg: #f4f7fb;
+  --color-bg-elevated: #ffffff;
+  --color-bg-muted: #ecf2f9;
+  --color-border: #d8e2ef;
+
+  /* Light mode: text colors */
+  --color-text: #162033;
+  --color-text-muted: #62728a;
+  --color-text-inverse: #f8fbff;
+
+  /* Light mode: hero surfaces and overlays */
+  --color-hero: #101a31;
+  --color-hero-surface: rgba(255, 255, 255, 0.08);
+  --color-hero-text: #f8fbff;
+  --color-hero-muted: rgba(224, 233, 255, 0.76);
+
+  /* Light mode: shadows and focus ring */
+  --shadow-card: 0 22px 44px rgba(18, 34, 58, 0.08);
+  --shadow-soft: 0 14px 30px rgba(49, 94, 251, 0.18);
+  --focus-ring: rgba(70, 184, 164, 0.3);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Dark mode: primary brand and interactive colors */
+  --color-primary: #8fb2ff;
+  --color-primary-hover: #a4c1ff;
+  --color-secondary: #172338;
+  --color-secondary-hover: #1d2c45;
+  --color-accent: #65ccb7;
+  --color-accent-soft: rgba(101, 204, 183, 0.18);
+  --color-success: #4dbb96;
+  --color-success-soft: rgba(77, 187, 150, 0.16);
+
+  /* Dark mode: backgrounds and surfaces */
+  --color-bg: #09111e;
+  --color-bg-elevated: #101a2d;
+  --color-bg-muted: #18263a;
+  --color-border: #2a3a54;
+
+  /* Dark mode: text colors */
+  --color-text: #eef4ff;
+  --color-text-muted: #b7c4d9;
+  --color-text-inverse: #08101d;
+
+  /* Dark mode: hero surfaces and overlays */
+  --color-hero: #101b31;
+  --color-hero-surface: rgba(255, 255, 255, 0.08);
+  --color-hero-text: #f4f7ff;
+  --color-hero-muted: rgba(224, 233, 255, 0.84);
+
+  /* Dark mode: shadows and focus ring */
+  --shadow-card: 0 24px 48px rgba(0, 0, 0, 0.34);
+  --shadow-soft: 0 16px 32px rgba(0, 0, 0, 0.26);
+  --focus-ring: rgba(101, 204, 183, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    color-scheme: dark;
+    --color-primary: #8fb2ff;
+    --color-primary-hover: #a4c1ff;
+    --color-secondary: #172338;
+    --color-secondary-hover: #1d2c45;
+    --color-accent: #65ccb7;
+    --color-accent-soft: rgba(101, 204, 183, 0.18);
+    --color-success: #4dbb96;
+    --color-success-soft: rgba(77, 187, 150, 0.16);
+    --color-bg: #09111e;
+    --color-bg-elevated: #101a2d;
+    --color-bg-muted: #18263a;
+    --color-border: #2a3a54;
+    --color-text: #eef4ff;
+    --color-text-muted: #b7c4d9;
+    --color-text-inverse: #08101d;
+    --color-hero: #101b31;
+    --color-hero-surface: rgba(255, 255, 255, 0.08);
+    --color-hero-text: #f4f7ff;
+    --color-hero-muted: rgba(224, 233, 255, 0.84);
+    --shadow-card: 0 24px 48px rgba(0, 0, 0, 0.34);
+    --shadow-soft: 0 16px 32px rgba(0, 0, 0, 0.26);
+    --focus-ring: rgba(101, 204, 183, 0.25);
+  }
+}
+
+body {
+  @apply antialiased;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  background-image:
+    radial-gradient(circle at top, rgba(98, 124, 194, 0.14), transparent 32%),
+    radial-gradient(circle at bottom right, var(--color-accent-soft), transparent 28%);
+}
+
+.container-page {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.card {
+  @apply rounded-3xl;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--shadow-card);
+}
+
+.btn {
+  @apply inline-flex items-center justify-center rounded-2xl px-4 py-2.5 text-sm font-semibold transition;
+}
+
+.btn-primary {
+  @apply btn disabled:cursor-not-allowed disabled:opacity-60;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-secondary {
+  @apply btn;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-hover);
+}
+
+.input {
+  @apply w-full rounded-2xl px-4 py-3 outline-none transition;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--focus-ring);
+}
+
+.label {
+  @apply mb-2 block text-sm font-semibold;
+  color: var(--color-text-muted);
+}
+
+.theme-chip {
+  @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-muted);
+}
+
+a {
+  transition: color 160ms ease, opacity 160ms ease;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}

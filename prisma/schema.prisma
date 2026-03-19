@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  DELIVERED
+}
+
+enum DeliveryType {
+  CUSTOMER_ACCOUNT
+  PRIVATE_ACCOUNT
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  HIDDEN
+}
+
+model Product {
+  id            String      @id @default(cuid())
+  slug          String      @unique
+  nameEn        String      @map("name_en")
+  nameAr        String      @map("name_ar")
+  descriptionEn String      @db.Text @map("description_en")
+  descriptionAr String      @db.Text @map("description_ar")
+  price         Decimal     @db.Decimal(10, 2)
+  category      String
+  image         String
+  isActive      Boolean     @default(true) @map("is_active")
+  deliveryType  DeliveryType @default(PRIVATE_ACCOUNT) @map("delivery_type")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  orderItems    OrderItem[]
+  reviews       Review[]
+
+  @@index([isActive])
+  @@index([category])
+  @@map("products")
+}
+
+model Order {
+  id           String       @id @default(cuid())
+  customerName String       @map("customer_name")
+  phone        String
+  totalPrice   Decimal      @db.Decimal(10, 2) @map("total_price")
+  status       OrderStatus  @default(PENDING)
+  notes        String?      @db.Text
+  deliveredAt  DateTime?    @map("delivered_at")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  items        OrderItem[]
+  events       OrderStatusEvent[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String   @map("order_id")
+  productId String   @map("product_id")
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String   @map("product_id")
+  name      String
+  comment   String?  @db.Text
+  rating    Int
+  status    ReviewStatus @default(APPROVED)
+  moderatedAt DateTime? @map("moderated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([productId])
+  @@index([createdAt])
+  @@map("reviews")
+}
+
+model OrderStatusEvent {
+  id        String      @id @default(cuid())
+  orderId   String      @map("order_id")
+  status    OrderStatus
+  note      String?     @db.Text
+  createdAt DateTime    @default(now()) @map("created_at")
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([createdAt])
+  @@map("order_status_events")
+}
