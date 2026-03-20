@@ -199,6 +199,22 @@ html[data-theme="dark"] ::selection {
   color: inherit;
 }
 
+.btn-primary::selection,
+.btn-primary *::selection,
+.bg-brand::selection,
+.bg-brand *::selection {
+  background-color: rgba(255, 255, 255, 0.88);
+  color: #162033;
+}
+
+html[data-theme="dark"] .btn-primary::selection,
+html[data-theme="dark"] .btn-primary *::selection,
+html[data-theme="dark"] .bg-brand::selection,
+html[data-theme="dark"] .bg-brand *::selection {
+  background-color: rgba(248, 251, 255, 0.92);
+  color: #08101d;
+}
+
 @keyframes toast-progress {
   from {
     transform: scaleX(1);
