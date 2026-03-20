@@ -190,8 +190,13 @@ a:hover {
 }
 
 ::selection {
-  background-color: var(--color-primary);
-  color: var(--color-text-inverse);
+  background-color: rgba(49, 94, 251, 0.18);
+  color: inherit;
+}
+
+html[data-theme="dark"] ::selection {
+  background-color: rgba(143, 178, 255, 0.28);
+  color: inherit;
 }
 
 @keyframes toast-progress {
