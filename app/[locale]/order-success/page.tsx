@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Locale } from "@/lib/constants";
 import { prisma } from "@/lib/db";
-import { dictionary } from "@/lib/i18n";
+import { dictionary, isLocale } from "@/lib/i18n";
 import { buildWhatsAppLink, formatCurrency } from "@/lib/utils";
 import { pickLocalized } from "@/lib/utils";
 
@@ -9,7 +10,7 @@ export default async function OrderSuccessPage({
   params,
   searchParams
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{
     orderId?: string;
     amount?: string;
@@ -18,6 +19,7 @@ export default async function OrderSuccessPage({
   }>;
 }) {
   const { locale } = await params;
+  if (!isLocale(locale)) notFound();
   const t = dictionary[locale];
   const query = await searchParams;
 

@@ -1,12 +1,14 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { ProductCard } from "@/components/product-card";
 import { Locale } from "@/lib/constants";
-import { dictionary } from "@/lib/i18n";
+import { dictionary, isLocale } from "@/lib/i18n";
 import { getReviewSummary } from "@/lib/reviews";
 
-export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  if (!isLocale(locale)) notFound();
   const t = dictionary[locale];
   const products = await prisma.product.findMany({
     where: { isActive: true },

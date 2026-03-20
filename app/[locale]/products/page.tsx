@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { ProductCard } from "@/components/product-card";
 import { Locale } from "@/lib/constants";
-import { dictionary } from "@/lib/i18n";
+import { dictionary, isLocale } from "@/lib/i18n";
 import { getReviewSummary } from "@/lib/reviews";
 
 type SortOption = "newest" | "price-asc" | "price-desc" | "rating";
@@ -22,10 +23,11 @@ export default async function ProductsPage({
   params,
   searchParams
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ filter?: string; sort?: string }>;
 }) {
   const { locale } = await params;
+  if (!isLocale(locale)) notFound();
   const query = await searchParams;
   const t = dictionary[locale];
   const filterValues: FilterOption[] = ["all", "ai", "gaming", "social-media"];

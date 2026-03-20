@@ -4,17 +4,17 @@ import { prisma } from "@/lib/db";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { RatingStars } from "@/components/rating-stars";
 import { ReviewForm } from "@/components/review-form";
-import { Locale } from "@/lib/constants";
-import { dictionary } from "@/lib/i18n";
+import { dictionary, isLocale } from "@/lib/i18n";
 import { formatCurrency, pickLocalized } from "@/lib/utils";
 import { getReviewSummary } from "@/lib/reviews";
 
 export default async function ProductDetailsPage({
   params
 }: {
-  params: Promise<{ locale: Locale; slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
+  if (!isLocale(locale)) notFound();
   const t = dictionary[locale];
   const product = await prisma.product.findUnique({
     where: { slug, isActive: true },
