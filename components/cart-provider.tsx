@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { CART_STORAGE_KEY, Locale } from "@/lib/constants";
 
 export type CartItem = {
@@ -20,7 +21,7 @@ interface CartContextValue {
   items: CartItem[];
   count: number;
   subtotal: number;
-  addItem: (item: Addable, quantity?: number) => void;
+  addItem: (item: Addable, quantity?: number, toastLocale?: Locale) => void;
   updateQuantity: (id: string, quantity: number) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
@@ -31,15 +32,58 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [toastLocale, setToastLocale] = useState<Locale | null>(null);
+  const toastTimeoutRef = useRef<number | null>(null);
+
+  function hideToast() {
+    setToastLocale(null);
+    if (toastTimeoutRef.current) {
+      window.clearTimeout(toastTimeoutRef.current);
+      toastTimeoutRef.current = null;
+    }
+  }
+
+  function showToast(locale?: Locale) {
+    if (!locale) return;
+    setToastLocale(locale);
+
+    if (toastTimeoutRef.current) {
+      window.clearTimeout(toastTimeoutRef.current);
+    }
+
+    toastTimeoutRef.current = window.setTimeout(() => {
+      hideToast();
+    }, 3000);
+  }
 
   useEffect(() => {
     const saved = window.localStorage.getItem(CART_STORAGE_KEY);
-    if (saved) setItems(JSON.parse(saved));
+    if (!saved) return;
+
+    try {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) {
+        setItems(parsed);
+      } else {
+        window.localStorage.removeItem(CART_STORAGE_KEY);
+      }
+    } catch {
+      window.localStorage.removeItem(CART_STORAGE_KEY);
+      setItems([]);
+    }
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
   }, [items]);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        window.clearTimeout(toastTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const value = useMemo(() => {
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -49,7 +93,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       items,
       count,
       subtotal,
-      addItem: (item: Addable, quantity: number = 1) =>
+      addItem: (item: Addable, quantity: number = 1, toastMessageArg?: string) => {
         setItems((current) => {
           const existing = current.find((entry) => entry.id === item.id);
 
@@ -62,7 +106,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           }
 
           return [...current, { ...item, quantity }];
-        }),
+        });
+        showToast(toastMessageArg as Locale | undefined);
+      },
       updateQuantity: (id: string, quantity: number) =>
         setItems((current) =>
           current.map((entry) =>
@@ -79,7 +125,33 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     };
   }, [items]);
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={value}>
+      {children}
+      {toastLocale ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 px-4">
+          <div className="w-full max-w-md overflow-hidden rounded-3xl bg-background text-center shadow-card">
+            <div className="h-1 w-full bg-surface-muted">
+              <div className="h-full w-full origin-left bg-brand animate-[toast-progress_3s_linear_forwards]" />
+            </div>
+            <div className="p-6">
+            <p className="text-lg font-bold text-foreground">
+              {toastLocale === "ar" ? "تمت إضافة المنتج إلى السلة" : "Product added to cart"}
+            </p>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <button type="button" className="btn-secondary" onClick={hideToast}>
+                {toastLocale === "ar" ? "موافق" : "OK"}
+              </button>
+              <Link href={`/${toastLocale}/cart`} className="btn-primary" onClick={hideToast}>
+                {toastLocale === "ar" ? "انتقل إلى السلة" : "Go to cart"}
+              </Link>
+            </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </CartContext.Provider>
+  );
 }
 
 export function useCart() {

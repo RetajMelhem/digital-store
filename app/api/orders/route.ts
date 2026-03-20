@@ -9,12 +9,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Too many requests. Please try again shortly." }, { status: 429 });
   }
 
-  const parsed = createOrderSchema.safeParse(await request.json());
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const parsed = createOrderSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   if (parsed.data.honeypot) return NextResponse.json({ error: "Spam detected" }, { status: 400 });
 
   const productIds = [...new Set(parsed.data.items.map((item) => item.productId))];
-  const products = await prisma.product.findMany({ where: { id: { in: productIds } } });
+  const products = await prisma.product.findMany({ where: { id: { in: productIds }, isActive: true } });
   if (products.length !== productIds.length) {
     return NextResponse.json({ error: "Some items are unavailable" }, { status: 400 });
   }

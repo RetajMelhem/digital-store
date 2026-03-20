@@ -57,6 +57,15 @@ export default async function ProductDetailsPage({
               <div>
                 <div className="text-3xl font-black text-foreground">{formatCurrency(Number(product.price), locale)}</div>
                 <div className="mt-1 text-sm text-muted">{t.amountToPay}</div>
+                <div className="mt-2 text-sm font-semibold text-brand">
+                  {product.deliveryType === "PRIVATE_ACCOUNT"
+                    ? locale === "ar"
+                      ? "يتم تسليمك حسابًا جديدًا بعد الدفع"
+                      : "You will receive a new account after payment"
+                    : locale === "ar"
+                      ? "يتم التفعيل على حسابك الشخصي الأساسي"
+                      : "Activation is completed on your main personal account"}
+                </div>
               </div>
               <div className="rounded-2xl bg-surface-muted px-4 py-3 text-sm font-semibold text-foreground">
                 {locale === "ar" ? "موثوق وسريع" : "Trusted & fast"}

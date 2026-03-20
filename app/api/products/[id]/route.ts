@@ -13,7 +13,13 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   if (!assertAdminRequest(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const parsed = productSchema.safeParse(await request.json());
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+  const parsed = productSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   const { id } = await params;
   const product = await prisma.product.update({ where: { id }, data: parsed.data });

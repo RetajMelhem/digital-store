@@ -39,7 +39,10 @@ export function AddToCartButton({
         />
       </div>
 
-      <button className={`${compact ? "h-11 text-sm" : "h-12 text-base"} btn-primary w-full`} onClick={() => addItem(product, quantity)}>
+      <button
+        className={`${compact ? "h-11 text-sm" : "h-12 text-base"} btn-primary w-full`}
+        onClick={() => addItem(product, quantity, locale)}
+      >
         {compact ? `+ ${t.addToCart}` : t.addToCart}
       </button>
     </div>

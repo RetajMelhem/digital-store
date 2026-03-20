@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Locale } from "@/lib/constants";
+import { prisma } from "@/lib/db";
 import { dictionary } from "@/lib/i18n";
 import { buildWhatsAppLink, formatCurrency } from "@/lib/utils";
+import { pickLocalized } from "@/lib/utils";
 
 export default async function OrderSuccessPage({
   params,
@@ -24,6 +26,24 @@ export default async function OrderSuccessPage({
   const customerName = query.customerName || "";
   const phone = query.phone || "";
   const cliqPhone = process.env.CLIQ_PHONE || "0776323241";
+  const order = orderId
+    ? await prisma.order.findUnique({
+        where: { id: orderId },
+        include: {
+          items: {
+            include: {
+              product: true
+            }
+          }
+        }
+      })
+    : null;
+  const productLines = order
+    ? order.items.map((item) => ({
+        name: pickLocalized(locale, item.product.nameAr, item.product.nameEn),
+        quantity: item.quantity
+      }))
+    : [];
 
   return (
     <div className="container-page py-10">
@@ -56,7 +76,7 @@ export default async function OrderSuccessPage({
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <Link
-            href={buildWhatsAppLink(orderId, formatCurrency(amount, locale), customerName, phone, locale)}
+            href={buildWhatsAppLink(orderId, formatCurrency(amount, locale), customerName, phone, locale, productLines)}
             className="btn-primary"
             target="_blank"
           >

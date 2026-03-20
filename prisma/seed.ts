@@ -80,13 +80,13 @@ const legacySlugs = ["gemini-Pro-1M", "discord-nitro-Gaming-1M"] as const;
 const productSeeds: ProductSeed[] = [
   {
     slug: "chatgpt-plus-account-1M",
-    nameEn: "ChatGPT Plus Account 1M",
+    nameEn: "ChatGPT Plus Account 1 Months",
     nameAr: "حساب ChatGPT Plus شهر واحد",
     descriptionEn: "You will receive a new private account with email and password after payment confirmation. The account is dedicated to you only.",
     descriptionAr: "سيتم تسليمك إيميل وباسورد لحساب جديد بعد تأكيد الدفع، والحساب خاص ومخصص لك فقط.",
     category: "AI",
-    image: "/images/products/Cgpt plus 1M.png",
-    price: 4,
+    image: "/images/products/chatgpt plus.png",
+    price: 3,
     deliveryType: "PRIVATE_ACCOUNT",
     reviewProfile: {
       minReviews: 11,
@@ -96,13 +96,13 @@ const productSeeds: ProductSeed[] = [
   },
   {
     slug: "chatgpt-plus-account-3M",
-    nameEn: "ChatGPT Plus Account 3M",
+    nameEn: "ChatGPT Plus Account 3 Months",
     nameAr: "حساب ChatGPT Plus 3 أشهر",
     descriptionEn: "You will receive a new private account with email and password after payment confirmation. The account is dedicated to you only.",
     descriptionAr: "سيتم تسليمك إيميل وباسورد لحساب جديد بعد تأكيد الدفع، والحساب خاص ومخصص لك فقط.",
     category: "AI",
-    image: "/images/products/Cgpt plus 3M.png",
-    price: 10,
+    image: "/images/products/chatgpt plus.png",
+    price: 8,
     deliveryType: "PRIVATE_ACCOUNT",
     reviewProfile: {
       minReviews: 8,
@@ -112,12 +112,12 @@ const productSeeds: ProductSeed[] = [
   },
   {
     slug: "chatgpt-pro-account-1M",
-    nameEn: "ChatGPT Pro Account 1M",
+    nameEn: "ChatGPT Pro Account 1 Months",
     nameAr: "حساب ChatGPT Pro شهر واحد",
     descriptionEn: "You will receive a new private account with email and password after payment confirmation. The account is dedicated to you only.",
     descriptionAr: "سيتم تسليمك إيميل وباسورد لحساب جديد بعد تأكيد الدفع، والحساب خاص ومخصص لك فقط.",
     category: "AI",
-    image: "/images/products/Cgpt pro 1M.png",
+    image: "/images/products/chatgpt pro.png",
     price: 8,
     deliveryType: "PRIVATE_ACCOUNT",
     reviewProfile: {
@@ -128,12 +128,12 @@ const productSeeds: ProductSeed[] = [
   },
   {
     slug: "chatgpt-pro-account-3M",
-    nameEn: "ChatGPT Pro Account 3M",
-    nameAr: "حساب ChatGPT Pro 3 أشهر",
+    nameEn: "ChatGPT Pro Account 3 Months",
+    nameAr: "حساب ChatGPT Pro ثلاثة أشهر",
     descriptionEn: "You will receive a new private account with email and password after payment confirmation. The account is dedicated to you only.",
     descriptionAr: "سيتم تسليمك إيميل وباسورد لحساب جديد بعد تأكيد الدفع، والحساب خاص ومخصص لك فقط.",
     category: "AI",
-    image: "/images/products/Cgpt pro 3M.png",
+    image: "/images/products/chatgpt pro.png",
     price: 20,
     deliveryType: "PRIVATE_ACCOUNT",
     reviewProfile: {
@@ -144,14 +144,30 @@ const productSeeds: ProductSeed[] = [
   },
   {
     slug: "gemini-pro-1M",
-    nameEn: "Gemini Pro 1M",
+    nameEn: "Gemini Pro 1 Months",
     nameAr: "حساب Gemini Pro شهر واحد",
-    descriptionEn: "You will receive a new private account with email and password after payment confirmation. The account is dedicated to you only.",
-    descriptionAr: "سيتم تسليمك إيميل وباسورد لحساب جديد بعد تأكيد الدفع، والحساب خاص ومخصص لك فقط.",
+    descriptionEn: "activate on your personal account",
+    descriptionAr: "التفعيل على حسابك الشخصي",
     category: "AI",
-    image: "/images/products/gemeni pro 1M.png",
-    price: 4.5,
-    deliveryType: "PRIVATE_ACCOUNT",
+    image: "/images/products/gemeni pro.png",
+    price: 4,
+    deliveryType: "CUSTOMER_ACCOUNT",
+    reviewProfile: {
+      minReviews: 7,
+      maxReviews: 11,
+      ratingWeights: [5, 5, 4, 4, 4, 4]
+    }
+  },
+    {
+    slug: "gemini-pro-6M",
+    nameEn: "Gemini Pro 6 Months",
+    nameAr: "حساب Gemini Pro ستة أشهر",
+    descriptionEn: "activate on your personal account",
+    descriptionAr: "التفعيل على حسابك الشخصي",
+    category: "AI",
+    image: "/images/products/gemeni pro.png",
+    price: 11,
+    deliveryType: "CUSTOMER_ACCOUNT",
     reviewProfile: {
       minReviews: 7,
       maxReviews: 11,
@@ -159,14 +175,30 @@ const productSeeds: ProductSeed[] = [
     }
   },
   {
-    slug: "youtube-premium-1M",
-    nameEn: "YouTube Premium 1M",
-    nameAr: "يوتيوب بريميوم شهر واحد",
+    slug: "youtube-premium-3M",
+    nameEn: "YouTube Premium 3 Months",
+    nameAr: "يوتيوب بريميوم ثلاثة أشهر",
     descriptionEn: "Activation is completed on your personal account with ad-free viewing and background playback.",
     descriptionAr: "يتم التفعيل على حسابك الشخصي مع مشاهدة بدون إعلانات وتشغيل في الخلفية.",
     category: "Social Media",
-    image: "/images/products/youtube premium 1M.png",
-    price: 4,
+    image: "/images/products/youtube premium.png",
+    price: 9,
+    deliveryType: "CUSTOMER_ACCOUNT",
+    reviewProfile: {
+      minReviews: 15,
+      maxReviews: 24,
+      ratingWeights: [5, 5, 5, 5, 4, 4, 4]
+    }
+  },
+    {
+    slug: "youtube-premium-1Y",
+    nameEn: "YouTube Premium 1 Year",
+    nameAr: "يوتيوب بريميوم سنة واحده",
+    descriptionEn: "Activation is completed on your personal account with ad-free viewing and background playback.",
+    descriptionAr: "يتم التفعيل على حسابك الشخصي مع مشاهدة بدون إعلانات وتشغيل في الخلفية.",
+    category: "Social Media",
+    image: "/images/products/youtube premium.png",
+    price: 16,
     deliveryType: "CUSTOMER_ACCOUNT",
     reviewProfile: {
       minReviews: 15,
@@ -208,13 +240,29 @@ const productSeeds: ProductSeed[] = [
   },
   {
     slug: "discord-nitro-gaming-1M",
-    nameEn: "Discord Nitro Gaming 1M",
-    nameAr: "ديسكورد نيترو جيمينج شهر واحد",
+    nameEn: "Discord Nitro 1M",
+    nameAr: "ديسكورد نيترو شهر واحد",
     descriptionEn: "Activation is completed on your personal account with Discord Nitro perks and fast processing.",
     descriptionAr: "يتم تفعيل الاشتراك على حسابك الشخصي مع مزايا Discord Nitro ومعالجة سريعة للطلب.",
     category: "Gaming",
-    image: "/images/products/discord nitro 1M.png",
-    price: 5,
+    image: "/images/products/discord nitro.png",
+    price: 4,
+    deliveryType: "CUSTOMER_ACCOUNT",
+    reviewProfile: {
+      minReviews: 6,
+      maxReviews: 12,
+      ratingWeights: [5, 5, 4, 4, 4]
+    }
+  },
+    {
+    slug: "discord-nitro-gaming-1Y",
+    nameEn: "Discord Nitro 1 Year",
+    nameAr: "ديسكورد نيترو سنة",
+    descriptionEn: "Activation is completed on your personal account with Discord Nitro perks and fast processing.",
+    descriptionAr: "يتم تفعيل الاشتراك على حسابك الشخصي مع مزايا Discord Nitro ومعالجة سريعة للطلب.",
+    category: "Gaming",
+    image: "/images/products/discord nitro.png",
+    price: 28,
     deliveryType: "CUSTOMER_ACCOUNT",
     reviewProfile: {
       minReviews: 6,

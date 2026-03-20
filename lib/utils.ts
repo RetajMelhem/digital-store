@@ -20,15 +20,24 @@ export function buildWhatsAppLink(
   amount?: string | number,
   customerName?: string,
   phoneNumber?: string,
-  locale: Locale = "en"
+  locale: Locale = "en",
+  products: Array<{ name: string; quantity: number }> = []
 ) {
   const phone = process.env.WHATSAPP_PHONE || "962776323241";
+  const productHeader = products.length > 0 ? (locale === "ar" ? "المنتجات:" : "Products:") : null;
+  const productLines = products.map((product) =>
+    locale === "ar"
+      ? `${product.name} - الكمية: ${product.quantity}`
+      : `${product.name} - Qty: ${product.quantity}`
+  );
 
   const lines =
     locale === "ar"
       ? [
           "مرحباً، لقد قمت بتحويل قيمة الطلب.",
           `رقم الطلب: ${orderId}`,
+          productHeader,
+          ...productLines,
           amount ? `المبلغ: ${amount}` : null,
           customerName ? `الاسم: ${customerName}` : null,
           phoneNumber ? `رقم الهاتف: ${phoneNumber}` : null,
@@ -37,6 +46,8 @@ export function buildWhatsAppLink(
       : [
           "Hello, I completed the payment for my order.",
           `Order ID: ${orderId}`,
+          productHeader,
+          ...productLines,
           amount ? `Amount: ${amount}` : null,
           customerName ? `Name: ${customerName}` : null,
           phoneNumber ? `Phone: ${phoneNumber}` : null,

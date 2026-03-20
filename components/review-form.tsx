@@ -49,7 +49,6 @@ export function ReviewForm({ locale, productId }: { locale: Locale; productId: s
       setName("");
       setRating(5);
       setFeedback(copy.success);
-      window.location.reload();
     } catch {
       setFeedback(copy.error);
     } finally {

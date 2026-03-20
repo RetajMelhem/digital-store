@@ -13,7 +13,13 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   if (!assertAdminRequest(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const parsed = productSchema.safeParse(await request.json());
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+  const parsed = productSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   const product = await prisma.product.create({ data: parsed.data });
   return NextResponse.json(product, { status: 201 });

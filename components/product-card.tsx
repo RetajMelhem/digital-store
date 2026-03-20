@@ -22,6 +22,7 @@ export function ProductCard({
     category: string;
     image: string;
     price: number;
+    deliveryType: "CUSTOMER_ACCOUNT" | "PRIVATE_ACCOUNT";
     rating?: number;
     ratingCount?: number;
   };
@@ -30,6 +31,14 @@ export function ProductCard({
   const description = pickLocalized(locale, product.descriptionAr, product.descriptionEn);
   const rating = product.rating ?? 4.5;
   const ratingCount = product.ratingCount ?? 20;
+  const deliveryText =
+    product.deliveryType === "PRIVATE_ACCOUNT"
+      ? locale === "ar"
+        ? "يتم تسليمك حسابًا جديدًا"
+        : "New account provided"
+      : locale === "ar"
+        ? "تفعيل على حسابك الشخصي"
+        : "Activation on your personal account";
 
   return (
     <div className="card group overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-card">
@@ -53,6 +62,7 @@ export function ProductCard({
             <span>({new Intl.NumberFormat(locale).format(ratingCount)} {locale === "ar" ? "تقييم" : "reviews"})</span>
           </div>
           <p className="line-clamp-2 text-sm leading-6 text-muted">{description}</p>
+          <p className="text-xs font-semibold text-brand">{deliveryText}</p>
         </div>
 
         <div className="flex items-end justify-between gap-3">

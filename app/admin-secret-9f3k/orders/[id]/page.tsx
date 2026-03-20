@@ -48,6 +48,22 @@ async function saveNotes(orderId: string, formData: FormData) {
   redirect(`${ADMIN_ROUTE}/orders/${orderId}`);
 }
 
+async function deleteOrder(orderId: string, formData: FormData) {
+  "use server";
+  await requireAdmin();
+
+  const password = String(formData.get("password") || "");
+  if (!password || password !== process.env.ADMIN_PASSWORD) {
+    throw new Error("Invalid admin password.");
+  }
+
+  await prisma.order.delete({
+    where: { id: orderId }
+  });
+
+  redirect(`${ADMIN_ROUTE}/orders`);
+}
+
 export default async function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
@@ -89,7 +105,17 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
             <div className="rounded-2xl bg-surface-muted p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-muted">Quick Action</div>
               <Link
-                href={buildWhatsAppLink(order.id, formatCurrency(Number(order.totalPrice), "en"), order.customerName, order.phone, "en")}
+                href={buildWhatsAppLink(
+                  order.id,
+                  formatCurrency(Number(order.totalPrice), "en"),
+                  order.customerName,
+                  order.phone,
+                  "en",
+                  order.items.map((item) => ({
+                    name: item.product.nameEn,
+                    quantity: item.quantity
+                  }))
+                )}
                 target="_blank"
                 className="mt-2 inline-flex text-sm font-semibold text-brand underline-offset-4 hover:underline"
               >
@@ -151,6 +177,23 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                 <p className="text-sm text-muted">No history yet.</p>
               )}
             </div>
+          </section>
+
+          <section className="card p-6">
+            <h2 className="text-xl font-black text-foreground">Delete Order</h2>
+            <p className="mt-2 text-sm text-muted">
+              Type the admin password, then delete this order permanently.
+            </p>
+            <form action={deleteOrder.bind(null, order.id)} className="mt-4 space-y-3">
+              <input
+                name="password"
+                type="password"
+                className="input"
+                placeholder="Admin password"
+                required
+              />
+              <button className="btn-secondary w-full">Delete order</button>
+            </form>
           </section>
         </div>
       </div>
