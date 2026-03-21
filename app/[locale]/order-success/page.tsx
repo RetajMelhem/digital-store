@@ -28,6 +28,7 @@ export default async function OrderSuccessPage({
   const customerName = query.customerName || "";
   const phone = query.phone || "";
   const cliqPhone = process.env.CLIQ_PHONE || "0776323241";
+  const bankName = "Arab Banking Corporation (المؤسسة المصرفية العربية)";
   const order = orderId
     ? await prisma.order.findUnique({
         where: { id: orderId },
@@ -46,6 +47,7 @@ export default async function OrderSuccessPage({
         quantity: item.quantity
       }))
     : [];
+  const paymentInfoDirection = locale === "ar" ? "rtl" : "ltr";
 
   return (
     <div className="container-page py-10">
@@ -70,9 +72,20 @@ export default async function OrderSuccessPage({
           </div>
         </div>
 
-        <div className="mt-6 rounded-3xl border border-line p-5">
-          <div className="text-sm text-muted">{t.cliqNumber}</div>
-          <div className="mt-2 text-2xl font-black text-foreground">{cliqPhone}</div>
+        <div className="mt-6 rounded-3xl border border-success/30 bg-success-soft p-5 shadow-soft">
+          <div className="text-sm font-semibold text-muted">{locale === "ar" ? "معلومات الدفع المهمة" : "Important payment details"}</div>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-success/35 bg-background px-4 py-4">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-success">{t.cliqNumber}</div>
+              <div className="mt-2 text-3xl font-black tracking-wide text-success">{cliqPhone}</div>
+            </div>
+
+            <div className="rounded-2xl border border-success/35 bg-background px-4 py-4" dir={paymentInfoDirection}>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-success">Bank · البنك</div>
+              <div className="mt-2 text-lg font-black leading-7 text-success">{bankName}</div>
+            </div>
+          </div>
+
           <p className="mt-4 text-sm text-muted">{t.whatsappHelp}</p>
         </div>
 
