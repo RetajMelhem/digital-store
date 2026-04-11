@@ -6,16 +6,24 @@ import { Locale } from "@/lib/constants";
 import { dictionary, isLocale } from "@/lib/i18n";
 import { getReviewSummary } from "@/lib/reviews";
 
+const featuredProductSlugs = [
+  "youtube-premium-3M",
+  "snapchat-plus-3M",
+  "chatgpt-plus-account-1m-on-your-personal-account",
+  "discord-nitro-gaming-1M"
+] as const;
+
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = dictionary[locale];
   const products = await prisma.product.findMany({
-    where: { isActive: true },
-    orderBy: { createdAt: "desc" },
-    take: 4,
+    where: { isActive: true, slug: { in: [...featuredProductSlugs] } },
     include: { reviews: { where: { status: "APPROVED" }, select: { rating: true } } }
   });
+  const orderedProducts = featuredProductSlugs
+    .map((slug) => products.find((product) => product.slug === slug))
+    .filter((product): product is (typeof products)[number] => Boolean(product));
 
   return (
     <div className="container-page space-y-16 py-6 sm:space-y-20 sm:py-10">
@@ -44,7 +52,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <div className="grid gap-4 self-stretch rounded-[1.75rem] bg-surface p-5 text-foreground sm:p-6">
           <div>
             <div className="text-sm font-semibold text-muted">{t.howItWorks}</div>
-            <div className="mt-2 text-2xl font-black">{locale === "ar" ? "تجربة شراء تشبه المتاجر الكبيرة" : "A polished big-store experience"}</div>
           </div>
           <ol className="space-y-3 text-sm leading-6 text-muted">
             <li className="rounded-2xl bg-surface-muted px-4 py-3">{t.step1}</li>
@@ -74,7 +81,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </Link>
         </div>
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {products.map((product) => {
+          {orderedProducts.map((product) => {
             const summary = getReviewSummary(product.reviews);
             return (
               <ProductCard

@@ -2,7 +2,7 @@ import { Locale, SUPPORTED_LOCALES } from "@/lib/constants";
 
 export const dictionary = {
   en: {
-    brand: "Account Hub",
+    brand: "AccuUp",
     home: "Home",
     products: "Products",
     cart: "Cart",
@@ -73,7 +73,7 @@ export const dictionary = {
     language: "Language"
   },
   ar: {
-    brand: "Account Hub",
+    brand: "AccuUp",
     home: "الرئيسية",
     products: "المنتجات",
     cart: "السلة",

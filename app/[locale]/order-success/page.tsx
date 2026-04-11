@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Locale } from "@/lib/constants";
 import { prisma } from "@/lib/db";
 import { dictionary, isLocale } from "@/lib/i18n";
-import { buildWhatsAppLink, formatCurrency } from "@/lib/utils";
-import { pickLocalized } from "@/lib/utils";
+import { buildWhatsAppLink, formatCurrency, pickLocalized } from "@/lib/utils";
+
+type PaymentOption = {
+  phone: string;
+  bankName: string;
+};
 
 export default async function OrderSuccessPage({
   params,
@@ -27,8 +30,18 @@ export default async function OrderSuccessPage({
   const amount = Number(query.amount || 0);
   const customerName = query.customerName || "";
   const phone = query.phone || "";
-  const cliqPhone = process.env.CLIQ_PHONE || "0776323241";
-  const bankName = "Arab Banking Corporation (المؤسسة المصرفية العربية)";
+  const paymentInfoDirection = locale === "ar" ? "rtl" : "ltr";
+  const paymentOptions: PaymentOption[] = [
+    {
+      phone: process.env.CLIQ_PHONE || "0776323241",
+      bankName: process.env.BANK_NAME || "Arab Banking Corporation (المؤسسة المصرفية العربية)"
+    },
+    {
+      phone: process.env.SECONDARY_CLIQ_PHONE || "",
+      bankName: process.env.SECONDARY_BANK_NAME || ""
+    }
+  ].filter((option) => option.phone && option.bankName);
+
   const order = orderId
     ? await prisma.order.findUnique({
         where: { id: orderId },
@@ -41,13 +54,13 @@ export default async function OrderSuccessPage({
         }
       })
     : null;
+
   const productLines = order
     ? order.items.map((item: { quantity: number; product: { nameAr: string; nameEn: string } }) => ({
         name: pickLocalized(locale, item.product.nameAr, item.product.nameEn),
         quantity: item.quantity
       }))
     : [];
-  const paymentInfoDirection = locale === "ar" ? "rtl" : "ltr";
 
   return (
     <div className="container-page py-10">
@@ -57,7 +70,6 @@ export default async function OrderSuccessPage({
         </span>
 
         <h1 className="mt-4 text-3xl font-black tracking-tight">{t.paymentTitle}</h1>
-
         <p className="mt-3 text-muted">{t.paymentText}</p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -73,17 +85,41 @@ export default async function OrderSuccessPage({
         </div>
 
         <div className="mt-6 rounded-3xl border border-success/30 bg-success-soft p-5 shadow-soft">
-          <div className="text-sm font-semibold text-muted">{locale === "ar" ? "معلومات الدفع المهمة" : "Important payment details"}</div>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-success/35 bg-background px-4 py-4">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-success">{t.cliqNumber}</div>
-              <div className="mt-2 text-3xl font-black tracking-wide text-success">{cliqPhone}</div>
-            </div>
+          <div className="text-sm font-semibold text-muted">
+            {locale === "ar" ? "معلومات الدفع المهمة" : "Important payment details"}
+          </div>
+          <p className="mt-3 text-sm text-muted">
+            {paymentOptions.length > 1
+              ? locale === "ar"
+                ? "يمكنك التحويل إلى أي واحد من خياري الدفع التاليين."
+                : "You can transfer the payment to either of the following payment options."
+              : locale === "ar"
+                ? "حوّل المبلغ إلى خيار الدفع التالي."
+                : "Transfer the payment to the following payment option."}
+          </p>
 
-            <div className="rounded-2xl border border-success/35 bg-background px-4 py-4" dir={paymentInfoDirection}>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-success">Bank · البنك</div>
-              <div className="mt-2 text-lg font-black leading-7 text-success">{bankName}</div>
-            </div>
+          <div className="mt-4 grid gap-4">
+            {paymentOptions.map((option, index) => (
+              <div key={`${option.phone}-${index}`} className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-2xl border border-success/35 bg-background px-4 py-4">
+                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-success">
+                    {paymentOptions.length > 1 ? `${t.cliqNumber} ${index + 1}` : t.cliqNumber}
+                  </div>
+                  <div className="mt-2 text-3xl font-black tracking-wide text-success">{option.phone}</div>
+                </div>
+
+                <div className="rounded-2xl border border-success/35 bg-background px-4 py-4" dir={paymentInfoDirection}>
+                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-success">
+                    {paymentOptions.length > 1
+                      ? `${locale === "ar" ? "البنك" : "Bank"} ${index + 1}`
+                      : locale === "ar"
+                        ? "البنك"
+                        : "Bank"}
+                  </div>
+                  <div className="mt-2 text-lg font-black leading-7 text-success">{option.bankName}</div>
+                </div>
+              </div>
+            ))}
           </div>
 
           <p className="mt-4 text-sm text-muted">{t.whatsappHelp}</p>

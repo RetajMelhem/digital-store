@@ -4,8 +4,8 @@ import "./globals.css";
 import { CartProvider } from "@/components/cart-provider";
 
 export const metadata: Metadata = {
-  title: "Account Hub",
-  description: "Account Hub is a professional digital store offering subscriptions, gaming products, and online services.",
+  title: "AccuUp",
+  description: "AccuUp is a professional digital store offering subscriptions, gaming products, and online services.",
   icons: {
     icon: "/images/our logo/our logo.png",
     shortcut: "/images/our logo/our logo.png",

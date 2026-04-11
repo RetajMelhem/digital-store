@@ -74,7 +74,7 @@ export default async function AdminPage() {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="space-y-2">
           <h1 className="text-3xl font-black text-foreground">Admin Dashboard</h1>
-          <p className="text-muted">Overview, actions, and shortcuts for Account Hub operations.</p>
+          <p className="text-muted">Overview, actions, and shortcuts for AccuUp operations.</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <AdminNav />
