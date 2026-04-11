@@ -32,7 +32,8 @@ export const productSchema = z.object({
   image: z.string().min(1).max(2048),
   price: z.coerce.number().positive().max(9999),
   deliveryType: z.enum(["CUSTOMER_ACCOUNT", "PRIVATE_ACCOUNT"]),
-  isActive: z.coerce.boolean()
+  isActive: z.coerce.boolean(),
+  isFeatured: z.coerce.boolean()
 });
 
 export const updateOrderStatusSchema = z.object({

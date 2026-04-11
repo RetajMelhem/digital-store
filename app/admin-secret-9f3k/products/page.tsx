@@ -8,13 +8,14 @@ import { AdminNav } from "@/components/admin-nav";
 export default async function AdminProductsPage({
   searchParams
 }: {
-  searchParams: Promise<{ q?: string; category?: string; sort?: string; visibility?: string }>;
+  searchParams: Promise<{ q?: string; category?: string; sort?: string; visibility?: string; featured?: string }>;
 }) {
   await requireAdmin();
   const query = await searchParams;
   const q = query.q?.trim() || "";
   const category = query.category || "";
   const visibility = query.visibility || "";
+  const featured = query.featured || "";
   const sort = query.sort || "updated";
 
   const products = await prisma.product.findMany({
@@ -29,7 +30,8 @@ export default async function AdminProductsPage({
           }
         : {}),
       ...(category ? { category } : {}),
-      ...(visibility === "visible" ? { isActive: true } : visibility === "hidden" ? { isActive: false } : {})
+      ...(visibility === "visible" ? { isActive: true } : visibility === "hidden" ? { isActive: false } : {}),
+      ...(featured === "featured" ? { isFeatured: true } : featured === "regular" ? { isFeatured: false } : {})
     },
     include: {
       _count: {
@@ -60,7 +62,7 @@ export default async function AdminProductsPage({
         </div>
       </div>
 
-      <form className="card grid gap-3 p-5 md:grid-cols-4 xl:grid-cols-[1fr_220px_220px_220px_auto]">
+      <form className="card grid gap-3 p-5 md:grid-cols-5 xl:grid-cols-[1fr_180px_180px_180px_180px_auto]">
         <input name="q" className="input" placeholder="Search by name or slug" defaultValue={q} />
         <select name="category" className="input" defaultValue={category}>
           <option value="">All categories</option>
@@ -72,6 +74,11 @@ export default async function AdminProductsPage({
           <option value="">All visibility</option>
           <option value="visible">Visible</option>
           <option value="hidden">Hidden</option>
+        </select>
+        <select name="featured" className="input" defaultValue={featured}>
+          <option value="">All placement</option>
+          <option value="featured">Featured on homepage</option>
+          <option value="regular">Not featured</option>
         </select>
         <select name="sort" className="input" defaultValue={sort}>
           <option value="updated">Recently updated</option>
@@ -90,6 +97,7 @@ export default async function AdminProductsPage({
               <th className="px-4 py-3">Price</th>
               <th className="px-4 py-3">Delivery</th>
               <th className="px-4 py-3">Visibility</th>
+              <th className="px-4 py-3">Homepage</th>
               <th className="px-4 py-3">Stats</th>
               <th className="px-4 py-3">Action</th>
             </tr>
@@ -105,6 +113,7 @@ export default async function AdminProductsPage({
                 <td className="px-4 py-3 text-foreground">{formatCurrency(Number(product.price), "en")}</td>
                 <td className="px-4 py-3 text-muted">{product.deliveryType === "PRIVATE_ACCOUNT" ? "Private account" : "Customer account"}</td>
                 <td className="px-4 py-3 text-muted">{product.isActive ? "Visible" : "Hidden"}</td>
+                <td className="px-4 py-3 text-muted">{product.isFeatured ? "Featured" : "Standard"}</td>
                 <td className="px-4 py-3 text-muted">{product._count.orderItems} orders / {product._count.reviews} reviews</td>
                 <td className="px-4 py-3">
                   <Link href={`${ADMIN_ROUTE}/products/${product.id}`} className="font-semibold text-brand underline-offset-4 hover:underline">

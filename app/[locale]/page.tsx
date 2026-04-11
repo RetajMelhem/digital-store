@@ -6,24 +6,16 @@ import { Locale } from "@/lib/constants";
 import { dictionary, isLocale } from "@/lib/i18n";
 import { getReviewSummary } from "@/lib/reviews";
 
-const featuredProductSlugs = [
-  "youtube-premium-3M",
-  "snapchat-plus-3M",
-  "chatgpt-plus-account-1m-on-your-personal-account",
-  "discord-nitro-gaming-1M"
-] as const;
-
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = dictionary[locale];
   const products = await prisma.product.findMany({
-    where: { isActive: true, slug: { in: [...featuredProductSlugs] } },
-    include: { reviews: { where: { status: "APPROVED" }, select: { rating: true } } }
+    where: { isActive: true, isFeatured: true },
+    include: { reviews: { where: { status: "APPROVED" }, select: { rating: true } } },
+    orderBy: { updatedAt: "desc" },
+    take: 4
   });
-  const orderedProducts = featuredProductSlugs
-    .map((slug) => products.find((product) => product.slug === slug))
-    .filter((product): product is (typeof products)[number] => Boolean(product));
 
   return (
     <div className="container-page space-y-16 py-6 sm:space-y-20 sm:py-10">
@@ -81,7 +73,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </Link>
         </div>
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {orderedProducts.map((product) => {
+          {products.map((product) => {
             const summary = getReviewSummary(product.reviews);
             return (
               <ProductCard

@@ -11,6 +11,7 @@ export function parseProductFormData(formData: FormData) {
     image: String(formData.get("image") || "").trim(),
     price: String(formData.get("price") || "").trim(),
     deliveryType: String(formData.get("deliveryType") || "").trim(),
-    isActive: formData.get("isActive") === "on"
+    isActive: formData.get("isActive") === "on",
+    isFeatured: formData.get("isFeatured") === "on"
   });
 }

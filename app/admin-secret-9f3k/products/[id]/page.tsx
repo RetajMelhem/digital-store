@@ -62,7 +62,8 @@ async function duplicateProduct(id: string) {
         descriptionEn: product.descriptionEn,
         descriptionAr: product.descriptionAr,
         deliveryType: product.deliveryType,
-        isActive: false
+        isActive: false,
+        isFeatured: false
       }
     });
   } catch (error) {
@@ -107,7 +108,8 @@ export default async function EditProductPage({
           descriptionEn: product.descriptionEn,
           descriptionAr: product.descriptionAr,
           deliveryType: product.deliveryType,
-          isActive: product.isActive
+          isActive: product.isActive,
+          isFeatured: product.isFeatured
         }}
         extraActions={
           <>

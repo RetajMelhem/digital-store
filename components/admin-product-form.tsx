@@ -13,6 +13,7 @@ type ProductFormValues = {
   descriptionAr: string;
   deliveryType: "CUSTOMER_ACCOUNT" | "PRIVATE_ACCOUNT";
   isActive: boolean;
+  isFeatured: boolean;
 };
 
 function slugify(value: string) {
@@ -184,6 +185,11 @@ export function AdminProductForm({
       <label className="md:col-span-2 flex items-center gap-3 rounded-2xl border border-line bg-surface-muted px-4 py-3 text-sm font-semibold text-foreground">
         <input type="checkbox" name="isActive" defaultChecked={initialValues.isActive} className="h-4 w-4" />
         Visible in storefront
+      </label>
+
+      <label className="md:col-span-2 flex items-center gap-3 rounded-2xl border border-line bg-surface-muted px-4 py-3 text-sm font-semibold text-foreground">
+        <input type="checkbox" name="isFeatured" defaultChecked={initialValues.isFeatured} className="h-4 w-4" />
+        Show in featured products on homepage
       </label>
 
       <div className="md:col-span-2 flex flex-wrap gap-3">

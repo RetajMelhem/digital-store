@@ -51,7 +51,8 @@ export default async function NewProductPage({
           descriptionEn: "",
           descriptionAr: "",
           deliveryType: "PRIVATE_ACCOUNT",
-          isActive: true
+          isActive: true,
+          isFeatured: false
         }}
       />
     </div>
