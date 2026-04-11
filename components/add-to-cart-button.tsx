@@ -29,7 +29,7 @@ export function AddToCartButton({
   return (
     <div className={compact ? "space-y-2" : "space-y-3"}>
       <div className="flex items-center gap-2">
-        <span className="text-xs font-semibold uppercase tracking-wide text-muted">Qty</span>
+        <span className="text-xs font-semibold tracking-wide text-muted">{t.quantityLabel}</span>
         <input
           type="number"
           min={1}

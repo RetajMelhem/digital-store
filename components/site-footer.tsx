@@ -9,21 +9,23 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
   return (
     <footer className="border-t border-line bg-surface/80">
-      <div className="container-page py-8 text-sm text-muted">
-        <div>
-          <div className="text-base font-bold text-foreground">{t.brand}</div>
-          <div className="mt-2 max-w-2xl">{t.footer}</div>
-          <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
-            <span className="font-semibold text-foreground">{whatsappLabel}:</span>
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noreferrer"
-              className="font-semibold text-brand underline-offset-4 hover:underline"
-            >
-              {whatsappPhone}
-            </a>
-          </div>
+      <div className="container-page grid gap-6 py-8 text-sm text-muted md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+        <div className="space-y-3">
+          <div className="text-base font-black text-foreground">{t.brand}</div>
+          <p className="max-w-2xl leading-7">{t.footer}</p>
+        </div>
+
+        <div className="rounded-3xl border border-line bg-background/75 px-5 py-4 shadow-sm">
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-muted">{whatsappLabel}</div>
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noreferrer"
+            dir="ltr"
+            className="mt-2 inline-flex text-lg font-black text-brand underline-offset-4 hover:underline"
+          >
+            {whatsappPhone}
+          </a>
         </div>
       </div>
     </footer>

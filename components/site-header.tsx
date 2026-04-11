@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -22,10 +23,10 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
   return (
     <header className="sticky top-0 z-30 border-b border-line/80 bg-background/90 backdrop-blur">
-      <div className="container-page relative flex h-16 items-center justify-between gap-3 sm:h-20">
-        <div className="flex items-center gap-3">
+      <div className="container-page relative flex h-16 items-center justify-between gap-2 max-[360px]:px-3 sm:h-20 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <MobileNav locale={locale} />
-          <Link href={`/${locale}`} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#09111e] px-2.5 py-1.5 text-[var(--color-hero-text)] shadow-soft transition hover:bg-[#101b31] sm:px-3 sm:py-2">
+          <Link href={`/${locale}`} className="flex shrink-0 items-center gap-2 rounded-2xl border border-white/10 bg-[#09111e] px-2 py-1.5 text-[var(--color-hero-text)] shadow-soft transition hover:bg-[#101b31] max-[360px]:px-1.5 sm:gap-3 sm:px-3 sm:py-2">
             <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-[#09111e] p-1 sm:h-12 sm:w-12">
               <Image
                 src="/images/our logo/our logo.png"
@@ -36,7 +37,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                 priority
               />
             </span>
-            <span className="max-w-[7.5rem] truncate text-sm font-black tracking-tight sm:max-w-none sm:text-lg">{t.brand}</span>
+            <span className="max-w-[7.5rem] truncate text-sm font-black tracking-tight max-[360px]:hidden sm:max-w-none sm:text-lg">{t.brand}</span>
           </Link>
         </div>
 
@@ -62,12 +63,14 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <div className="hidden lg:block">
-            <ThemeToggle />
+            <ThemeToggle locale={locale} />
           </div>
           <CartBadge locale={locale} />
-          <LanguageSwitcher locale={locale} />
+          <Suspense fallback={null}>
+            <LanguageSwitcher locale={locale} />
+          </Suspense>
         </div>
       </div>
     </header>

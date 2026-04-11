@@ -14,6 +14,8 @@
   --color-accent-soft: rgba(70, 184, 164, 0.18);
   --color-success: #279a79;
   --color-success-soft: rgba(39, 154, 121, 0.14);
+  --color-danger: #b42318;
+  --color-danger-soft: rgba(180, 35, 24, 0.12);
 
   /* Light mode: backgrounds and surfaces */
   --color-bg: #f4f7fb;
@@ -54,6 +56,8 @@ html[data-theme="dark"] {
   --color-accent-soft: rgba(101, 204, 183, 0.18);
   --color-success: #4dbb96;
   --color-success-soft: rgba(77, 187, 150, 0.16);
+  --color-danger: #ffb4ae;
+  --color-danger-soft: rgba(255, 120, 120, 0.16);
 
   /* Dark mode: backgrounds and surfaces */
   --color-bg: #09111e;
@@ -179,6 +183,13 @@ body {
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-muted);
   color: var(--color-text-muted);
+}
+
+.alert-error {
+  @apply rounded-2xl px-4 py-3;
+  border: 1px solid var(--color-danger-soft);
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger);
 }
 
 a {

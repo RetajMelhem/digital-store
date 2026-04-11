@@ -5,7 +5,7 @@ import { AddToCartButton } from "@/components/add-to-cart-button";
 import { RatingStars } from "@/components/rating-stars";
 import { ReviewForm } from "@/components/review-form";
 import { dictionary, isLocale } from "@/lib/i18n";
-import { formatCurrency, pickLocalized } from "@/lib/utils";
+import { formatCategoryLabel, formatCurrency, pickLocalized } from "@/lib/utils";
 import { getReviewSummary } from "@/lib/reviews";
 
 export default async function ProductDetailsPage({
@@ -29,17 +29,20 @@ export default async function ProductDetailsPage({
 
   const name = pickLocalized(locale, product.nameAr, product.nameEn);
   const description = pickLocalized(locale, product.descriptionAr, product.descriptionEn);
+  const categoryLabel = formatCategoryLabel(product.category, locale);
   const summary = getReviewSummary(allReviewRatings);
 
   return (
     <div className="container-page space-y-8 py-6 sm:space-y-10 sm:py-10">
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
         <div className="card overflow-hidden">
-          <Image src={product.image} alt={name} width={1200} height={900} className="h-full min-h-[320px] w-full object-cover" unoptimized />
+          <div className="relative aspect-[4/3] w-full">
+            <Image src={product.image} alt={name} fill className="object-cover" unoptimized />
+          </div>
         </div>
         <div className="space-y-5">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="theme-chip">{product.category}</span>
+            <span className="theme-chip">{categoryLabel}</span>
           </div>
 
           <div className="space-y-3">

@@ -18,10 +18,12 @@ export function LanguageSwitcher({ locale }: { locale: Locale }) {
   return (
     <Link
       href={nextUrl}
-      className="rounded-2xl border border-line bg-surface px-3 py-2 text-sm font-semibold text-foreground hover:bg-surface-muted"
+      aria-label={locale === "ar" ? "Switch language to English" : "تغيير اللغة إلى العربية"}
+      className="shrink-0 rounded-2xl border border-line bg-surface px-3 py-2 text-sm font-semibold text-foreground hover:bg-surface-muted max-[360px]:px-2.5"
       onClick={() => saveLocale(target)}
     >
-      {locale === "ar" ? "English" : "العربية"}
+      <span className="max-[360px]:hidden">{locale === "ar" ? "English" : "العربية"}</span>
+      <span className="hidden max-[360px]:inline">{locale === "ar" ? "EN" : "AR"}</span>
     </Link>
   );
 }

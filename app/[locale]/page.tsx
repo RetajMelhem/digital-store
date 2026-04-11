@@ -22,7 +22,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section className="grid gap-6 overflow-hidden rounded-[2rem] bg-hero px-5 py-8 text-[var(--color-hero-text)] shadow-card md:grid-cols-[1.2fr_0.8fr] md:px-10 md:py-14">
         <div className="space-y-5">
           <span className="inline-flex rounded-full bg-hero-surface px-3 py-1 text-xs font-semibold">{t.heroBadge}</span>
-          <h1 className="max-w-2xl text-4xl font-black tracking-tight sm:text-5xl md:text-6xl">{t.heroTitle}</h1>
+          <h1 className="max-w-2xl text-3xl font-black leading-relaxed tracking-tight sm:text-4xl md:text-5xl md:leading-[1.35]">{t.heroTitle}</h1>
           <p className="max-w-xl text-sm leading-7 text-hero-muted sm:text-base">{t.heroText}</p>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link href={`/${locale}/products`} className="btn h-12 rounded-2xl bg-white px-5 text-base font-semibold text-[#315efb] hover:bg-white/90 hover:text-[#274de0]">
