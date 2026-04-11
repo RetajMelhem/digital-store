@@ -4,7 +4,7 @@ import { dictionary } from "@/lib/i18n";
 export function SiteFooter({ locale }: { locale: Locale }) {
   const t = dictionary[locale];
   const whatsappPhone = process.env.WHATSAPP_PHONE || "962776323241";
-  const whatsappLabel = locale === "ar" ? "للتواصل" : "Contact";
+  const whatsappLabel = locale === "ar" ? "للتواصل عبر واتساب" : "Contact via WhatsApp";
   const whatsappHref = `https://wa.me/${whatsappPhone.replace(/[^\d]/g, "")}`;
 
   return (
