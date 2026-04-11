@@ -41,21 +41,21 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
         </div>
 
-        <div className="grid gap-4 self-stretch rounded-[1.75rem] bg-surface p-5 text-foreground sm:p-6">
+        <div className="grid gap-4 self-stretch rounded-[1.75rem] border border-line/80 bg-surface p-5 text-foreground shadow-soft sm:p-6">
           <div>
-            <div className="text-sm font-semibold text-muted">{t.howItWorks}</div>
+            <div className="text-sm font-black tracking-wide text-foreground">{t.howItWorks}</div>
           </div>
-          <ol className="space-y-3 text-sm leading-6 text-muted">
-            <li className="rounded-2xl bg-surface-muted px-4 py-3">{t.step1}</li>
-            <li className="rounded-2xl bg-surface-muted px-4 py-3">{t.step2}</li>
-            <li className="rounded-2xl bg-surface-muted px-4 py-3">{t.step3}</li>
+          <ol className="space-y-3 text-sm leading-6 text-foreground">
+            <li className="rounded-2xl border border-line/70 bg-surface-muted px-4 py-3 font-medium shadow-sm">{t.step1}</li>
+            <li className="rounded-2xl border border-line/70 bg-surface-muted px-4 py-3 font-medium shadow-sm">{t.step2}</li>
+            <li className="rounded-2xl border border-line/70 bg-surface-muted px-4 py-3 font-medium shadow-sm">{t.step3}</li>
           </ol>
           <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-line p-4">
+            <div className="rounded-2xl border border-line bg-surface-muted/70 p-4 shadow-sm">
               <div className="text-base font-black text-foreground">
                 {locale === "ar" ? "تسليم المنتجات" : "Product delivery"}
               </div>
-              <div className="mt-1 text-sm leading-6 text-muted">
+              <div className="mt-1 text-sm font-medium leading-6 text-foreground/85">
                 {locale === "ar" ? "بين الساعة 12 ظهراً إلى الساعة 12 مساءً" : "From 12 PM to 12 AM"}
               </div>
             </div>

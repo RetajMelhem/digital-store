@@ -80,7 +80,7 @@ export const dictionary = {
     checkout: "الدفع",
     orderSuccess: "نجاح الطلب",
     heroBadge: "تسليم رقمي سريع",
-    heroTitle: "اشترِ الاشتراكات الرقمية خلال أقل من دقيقة.",
+    heroTitle: "اشتري الاشتراكات الرقمية خلال أقل من دقيقة.",
     heroText: "بدون حسابات، بدون تسجيل دخول، وبدون نماذج طويلة. اختر المنتج وأضفه إلى السلة وأكمل طلبك عبر Jordan CliQ.",
     browseProducts: "تصفح المنتجات",
     openCart: "افتح السلة",

@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Readex_Pro } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart-provider";
+
+const readexPro = Readex_Pro({
+  subsets: ["arabic", "latin"],
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   title: "AccuUp",
@@ -27,7 +33,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           } catch (error) {}`}
         </Script>
       </head>
-      <body>
+      <body className={readexPro.className}>
         <CartProvider>{children}</CartProvider>
       </body>
     </html>
