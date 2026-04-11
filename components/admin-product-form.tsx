@@ -40,12 +40,41 @@ export function AdminProductForm({
   const [slug, setSlug] = useState(initialValues.slug);
   const [image, setImage] = useState(initialValues.image);
   const [slugEdited, setSlugEdited] = useState(Boolean(initialValues.slug));
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   useEffect(() => {
     if (!slugEdited) {
       setSlug(slugify(nameEn));
     }
   }, [nameEn, slugEdited]);
+
+  async function handleFileUpload(file: File) {
+    setUploading(true);
+    setUploadError("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/admin/uploads", {
+        method: "POST",
+        body: formData
+      });
+
+      const payload = (await response.json()) as { url?: string; error?: string };
+
+      if (!response.ok || !payload.url) {
+        throw new Error(payload.error || "Image upload failed.");
+      }
+
+      setImage(payload.url);
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : "Image upload failed.");
+    } finally {
+      setUploading(false);
+    }
+  }
 
   return (
     <form action={action} className="mx-auto max-w-5xl card grid gap-4 p-6 md:grid-cols-2">
@@ -112,6 +141,26 @@ export function AdminProductForm({
           onChange={(event) => setImage(event.target.value)}
           required
         />
+        <div className="mt-3 rounded-2xl border border-dashed border-line bg-surface-muted p-4">
+          <label className="label">Upload Image</label>
+          <input
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            className="input"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              if (!file) return;
+              void handleFileUpload(file);
+              event.currentTarget.value = "";
+            }}
+            disabled={uploading}
+          />
+          <p className="mt-2 text-xs text-muted">
+            Upload JPG, PNG, WEBP, or GIF up to 5 MB. The uploaded image URL will fill in automatically.
+          </p>
+          {uploading ? <p className="mt-2 text-sm font-medium text-foreground">Uploading image...</p> : null}
+          {uploadError ? <p className="mt-2 text-sm font-medium text-red-600">{uploadError}</p> : null}
+        </div>
       </div>
 
       {image ? (

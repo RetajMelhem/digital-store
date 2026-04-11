@@ -42,7 +42,7 @@ export default async function OrderSuccessPage({
       })
     : null;
   const productLines = order
-    ? order.items.map((item) => ({
+    ? order.items.map((item: { quantity: number; product: { nameAr: string; nameEn: string } }) => ({
         name: pickLocalized(locale, item.product.nameAr, item.product.nameEn),
         quantity: item.quantity
       }))

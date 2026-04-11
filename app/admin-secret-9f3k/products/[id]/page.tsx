@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { ADMIN_ROUTE } from "@/lib/constants";
+import { getActionErrorMessage } from "@/lib/action-errors";
 import { productSchema } from "@/lib/validators";
 import { AdminNav } from "@/components/admin-nav";
 import { AdminConfirmButton } from "@/components/admin-confirm-button";
@@ -11,8 +12,14 @@ import { AdminProductForm } from "@/components/admin-product-form";
 async function updateProduct(id: string, formData: FormData) {
   "use server";
   await requireAdmin();
-  const parsed = productSchema.parse(Object.fromEntries(formData.entries()));
-  await prisma.product.update({ where: { id }, data: parsed });
+
+  try {
+    const parsed = productSchema.parse(Object.fromEntries(formData.entries()));
+    await prisma.product.update({ where: { id }, data: parsed });
+  } catch (error) {
+    redirect(`${ADMIN_ROUTE}/products/${id}?error=${encodeURIComponent(getActionErrorMessage(error))}`);
+  }
+
   redirect(`${ADMIN_ROUTE}/products/${id}`);
 }
 
@@ -22,49 +29,70 @@ async function deleteProduct(id: string) {
 
   try {
     await prisma.product.delete({ where: { id } });
-    redirect(`${ADMIN_ROUTE}/products`);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003") {
-      throw new Error("Cannot delete a product that is already linked to existing orders.");
-    }
-    throw error;
+    const message =
+      error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003"
+        ? "Cannot delete a product that is already linked to existing orders."
+        : getActionErrorMessage(error);
+    redirect(`${ADMIN_ROUTE}/products/${id}?error=${encodeURIComponent(message)}`);
   }
+
+  redirect(`${ADMIN_ROUTE}/products`);
 }
 
 async function duplicateProduct(id: string) {
   "use server";
   await requireAdmin();
-  const product = await prisma.product.findUnique({ where: { id } });
-  if (!product) return;
 
-  const slug = `${product.slug}-copy-${Date.now().toString().slice(-6)}`;
-  await prisma.product.create({
-    data: {
-      nameEn: `${product.nameEn} Copy`,
-      nameAr: `${product.nameAr} نسخة`,
-      slug,
-      category: product.category,
-      price: product.price,
-      image: product.image,
-      descriptionEn: product.descriptionEn,
-      descriptionAr: product.descriptionAr,
-      deliveryType: product.deliveryType,
-      isActive: false
+  try {
+    const product = await prisma.product.findUnique({ where: { id } });
+    if (!product) {
+      redirect(`${ADMIN_ROUTE}/products/${id}?error=${encodeURIComponent("The selected item no longer exists.")}`);
     }
-  });
+
+    const slug = `${product.slug}-copy-${Date.now().toString().slice(-6)}`;
+    await prisma.product.create({
+      data: {
+        nameEn: `${product.nameEn} Copy`,
+        nameAr: `${product.nameAr} نسخة`,
+        slug,
+        category: product.category,
+        price: product.price,
+        image: product.image,
+        descriptionEn: product.descriptionEn,
+        descriptionAr: product.descriptionAr,
+        deliveryType: product.deliveryType,
+        isActive: false
+      }
+    });
+  } catch (error) {
+    redirect(`${ADMIN_ROUTE}/products/${id}?error=${encodeURIComponent(getActionErrorMessage(error))}`);
+  }
 
   redirect(`${ADMIN_ROUTE}/products`);
 }
 
-export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function EditProductPage({
+  params,
+  searchParams
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string }>;
+}) {
   await requireAdmin();
   const { id } = await params;
+  const query = await searchParams;
   const product = await prisma.product.findUnique({ where: { id } });
   if (!product) notFound();
 
   return (
     <div className="container-page space-y-6 py-10">
       <AdminNav />
+      {query.error ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+          {query.error}
+        </div>
+      ) : null}
       <AdminProductForm
         action={updateProduct.bind(null, id)}
         heading="Edit Product"
