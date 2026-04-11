@@ -63,6 +63,18 @@ export function getDirection(locale: Locale) {
   return locale === "ar" ? "rtl" : "ltr";
 }
 
+export function formatCategoryLabel(category: string, locale: Locale) {
+  if (locale !== "ar") return category;
+
+  const normalized = category.trim().toLowerCase();
+
+  if (normalized === "ai") return "الذكاء الاصطناعي";
+  if (normalized === "gaming") return "الألعاب";
+  if (normalized === "social media") return "التواصل الاجتماعي";
+
+  return category;
+}
+
 export function pickLocalized(locale: Locale, ar: string, en: string) {
   return locale === "ar" ? ar : en;
 }

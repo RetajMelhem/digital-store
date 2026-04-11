@@ -115,14 +115,28 @@ export function CheckoutForm({ locale }: { locale: Locale }) {
             type="tel"
             inputMode="tel"
             className="input"
-            placeholder="07xxxxxxxx or +9627xxxxxxxx"
+            placeholder={t.phonePlaceholder}
             required
           />
         </div>
 
         <input name="website" className="hidden" tabIndex={-1} autoComplete="off" />
 
-        {error ? <p className="text-sm text-red-600">{error}</p> : null}
+        {error ? (
+          <div className="alert-error" role="alert">
+            <div className="flex items-start gap-3">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 shrink-0 fill-none stroke-current stroke-[2]">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 8v5" strokeLinecap="round" />
+                <circle cx="12" cy="16.5" r="1" fill="currentColor" stroke="none" />
+              </svg>
+              <div>
+                <div className="text-sm font-bold">{t.errorNoticeTitle}</div>
+                <p className="mt-1 text-sm leading-6">{error}</p>
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         <button className="btn-primary w-full" disabled={loading}>
           {loading ? t.submitting : t.placeOrder}

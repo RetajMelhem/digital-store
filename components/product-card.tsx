@@ -5,7 +5,7 @@ import Link from "next/link";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { RatingStars } from "@/components/rating-stars";
 import { Locale } from "@/lib/constants";
-import { pickLocalized, formatCurrency } from "@/lib/utils";
+import { pickLocalized, formatCurrency, formatCategoryLabel } from "@/lib/utils";
 
 export function ProductCard({
   locale,
@@ -29,6 +29,7 @@ export function ProductCard({
 }) {
   const name = pickLocalized(locale, product.nameAr, product.nameEn);
   const description = pickLocalized(locale, product.descriptionAr, product.descriptionEn);
+  const categoryLabel = formatCategoryLabel(product.category, locale);
   const rating = product.rating ?? 4.5;
   const ratingCount = product.ratingCount ?? 20;
   const deliveryText =
@@ -43,12 +44,20 @@ export function ProductCard({
   return (
     <div className="card group overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-card">
       <Link href={`/${locale}/products/${product.slug}`} className="block overflow-hidden bg-surface-muted">
-        <Image src={product.image} alt={name} width={900} height={600} className="h-60 w-full object-cover transition duration-500 group-hover:scale-105" unoptimized />
+        <div className="relative aspect-[4/3] w-full">
+          <Image
+            src={product.image}
+            alt={name}
+            fill
+            className="object-cover transition duration-500 group-hover:scale-105"
+            unoptimized
+          />
+        </div>
       </Link>
       <div className="space-y-4 p-5 sm:p-6">
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-3">
-            <span className="theme-chip">{product.category}</span>
+            <span className="theme-chip">{categoryLabel}</span>
             <span className="inline-flex rounded-full bg-success-soft px-3 py-1 text-xs font-semibold text-success">
               {locale === "ar" ? "تسليم سريع" : "Fast delivery"}
             </span>

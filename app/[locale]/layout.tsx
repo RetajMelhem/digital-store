@@ -1,9 +1,13 @@
 import { notFound } from "next/navigation";
-import { Locale } from "@/lib/constants";
+import { Locale, SUPPORTED_LOCALES } from "@/lib/constants";
 import { getDirection } from "@/lib/utils";
 import { isLocale } from "@/lib/i18n";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+
+export function generateStaticParams() {
+  return SUPPORTED_LOCALES.map((locale) => ({ locale }));
+}
 
 export default async function LocaleLayout({
   children,

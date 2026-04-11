@@ -25,14 +25,23 @@ export function MobileNav({ locale }: { locale: Locale }) {
         type="button"
         onClick={() => setOpen((current) => !current)}
         className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-line bg-surface text-xl text-foreground shadow-sm"
-        aria-label={open ? "Close menu" : "Open menu"}
+        aria-controls="mobile-menu"
+        aria-label={open ? t.closeMenu : t.openMenu}
         aria-expanded={open}
       >
-        {open ? "✕" : "☰"}
+        {open ? (
+          <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.2]">
+            <path d="M6 6l12 12M18 6 6 18" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ) : (
+          <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.2]">
+            <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        )}
       </button>
 
       {open ? (
-        <div className="absolute inset-x-4 top-16 z-50 rounded-3xl border border-line bg-surface p-4 shadow-card">
+        <div id="mobile-menu" className="absolute inset-x-4 top-16 z-50 rounded-3xl border border-line bg-surface p-4 shadow-card">
           <div className="space-y-2">
             {links.map((link) => {
               const isActive = link.exact ? pathname === link.href : pathname === link.href || pathname.startsWith(`${link.href}/`);
@@ -57,8 +66,8 @@ export function MobileNav({ locale }: { locale: Locale }) {
           </div>
 
           <div className="mt-4 border-t border-line pt-4">
-            <div className="mb-3 text-sm font-semibold text-muted">{locale === "ar" ? "المظهر" : "Appearance"}</div>
-            <ThemeToggle />
+            <div className="mb-3 text-sm font-semibold text-muted">{t.appearance}</div>
+            <ThemeToggle locale={locale} />
           </div>
         </div>
       ) : null}

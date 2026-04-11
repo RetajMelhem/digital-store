@@ -80,10 +80,10 @@ export default async function ProductsPage({
         <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap gap-2">
             {[
-              { label: locale === "ar" ? "كل المنتجات" : "All products", value: "all" as FilterOption },
-              { label: "AI", value: "ai" as FilterOption },
-              { label: "Gaming", value: "gaming" as FilterOption },
-              { label: "Social Media", value: "social-media" as FilterOption }
+              { label: t.allProductsFilter, value: "all" as FilterOption },
+              { label: t.aiFilter, value: "ai" as FilterOption },
+              { label: t.gamingFilter, value: "gaming" as FilterOption },
+              { label: t.socialMediaFilter, value: "social-media" as FilterOption }
             ].map((option) => {
               const active = filter === option.value;
 
@@ -102,7 +102,7 @@ export default async function ProductsPage({
           </div>
 
           <div className="flex flex-wrap gap-2 text-sm">
-            <span className="px-1 py-2 font-semibold text-muted">{locale === "ar" ? "ترتيب:" : "Sort:"}</span>
+            <span className="px-1 py-2 font-semibold text-muted">{t.sortLabel}</span>
             {[
               { label: locale === "ar" ? "الأحدث" : "Newest", value: "newest" as SortOption },
               { label: locale === "ar" ? "الأقل سعرًا" : "Price: Low to high", value: "price-asc" as SortOption },
@@ -128,9 +128,22 @@ export default async function ProductsPage({
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {visibleProducts.map((product) => (
-          <ProductCard key={product.id} locale={locale} product={product} />
-        ))}
+        {visibleProducts.length ? (
+          visibleProducts.map((product) => <ProductCard key={product.id} locale={locale} product={product} />)
+        ) : (
+          <div className="card rounded-[2rem] p-8 text-center md:col-span-2 xl:col-span-3">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-surface-muted text-brand shadow-sm">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current stroke-[1.8]">
+                <path d="M4 7h16M7 4h10l1 3H6l1-3Zm0 0L5 20h14L17 4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <h2 className="mt-4 text-2xl font-black tracking-tight text-foreground">{t.emptyProductsTitle}</h2>
+            <p className="mx-auto mt-2 max-w-xl text-sm leading-7 text-muted">{t.emptyProductsText}</p>
+            <Link href={getProductsUrl(locale, "all", "newest")} className="btn-primary mt-6">
+              {t.showAllProducts}
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

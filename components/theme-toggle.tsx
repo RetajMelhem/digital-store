@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Locale } from "@/lib/constants";
+import { dictionary } from "@/lib/i18n";
 
 type Theme = "light" | "dark";
 
@@ -8,8 +10,9 @@ function getSystemTheme(): Theme {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ locale }: { locale: Locale }) {
   const [theme, setTheme] = useState<Theme>("light");
+  const t = dictionary[locale];
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("theme");
@@ -44,9 +47,10 @@ export function ThemeToggle() {
         className={`rounded-xl px-3 py-2 text-xs font-semibold transition sm:text-sm ${
           theme === "light" ? "bg-brand text-[var(--color-text-inverse)] shadow-sm" : "text-muted hover:bg-surface-muted"
         }`}
+        aria-label={t.lightMode}
         aria-pressed={theme === "light"}
       >
-        Light
+        {t.lightMode}
       </button>
       <button
         type="button"
@@ -54,9 +58,10 @@ export function ThemeToggle() {
         className={`rounded-xl px-3 py-2 text-xs font-semibold transition sm:text-sm ${
           theme === "dark" ? "bg-brand text-[var(--color-text-inverse)] shadow-sm" : "text-muted hover:bg-surface-muted"
         }`}
+        aria-label={t.darkMode}
         aria-pressed={theme === "dark"}
       >
-        Dark
+        {t.darkMode}
       </button>
     </div>
   );
