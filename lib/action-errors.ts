@@ -1,9 +1,23 @@
 import { Prisma } from "@prisma/client";
 import { ZodError } from "zod";
 
+function formatFieldName(path: (string | number)[]) {
+  const field = path[0];
+  if (typeof field !== "string" || !field) return "";
+
+  return field
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (char) => char.toUpperCase())
+    .trim();
+}
+
 export function getActionErrorMessage(error: unknown, fallback = "Something went wrong. Please try again.") {
   if (error instanceof ZodError) {
-    return error.issues[0]?.message || fallback;
+    const firstIssue = error.issues[0];
+    if (!firstIssue) return fallback;
+
+    const fieldName = formatFieldName(firstIssue.path);
+    return fieldName ? `${fieldName}: ${firstIssue.message}` : firstIssue.message || fallback;
   }
 
   if (error instanceof Prisma.PrismaClientKnownRequestError) {

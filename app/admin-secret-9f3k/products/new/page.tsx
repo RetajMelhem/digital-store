@@ -3,7 +3,7 @@ import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { ADMIN_ROUTE } from "@/lib/constants";
 import { getActionErrorMessage } from "@/lib/action-errors";
-import { productSchema } from "@/lib/validators";
+import { parseProductFormData } from "@/lib/product-form";
 import { AdminNav } from "@/components/admin-nav";
 import { AdminProductForm } from "@/components/admin-product-form";
 
@@ -12,7 +12,7 @@ async function createProduct(formData: FormData) {
   await requireAdmin();
 
   try {
-    const parsed = productSchema.parse(Object.fromEntries(formData.entries()));
+    const parsed = parseProductFormData(formData);
     await prisma.product.create({ data: parsed });
   } catch (error) {
     redirect(`${ADMIN_ROUTE}/products/new?error=${encodeURIComponent(getActionErrorMessage(error))}`);
