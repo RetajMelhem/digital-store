@@ -42,58 +42,56 @@ export function ProductCard({
         : "Activation on your personal account";
 
   return (
-    <div className="card group overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-card">
-      <Link href={`/${locale}/products/${product.slug}`} className="block overflow-hidden bg-surface-muted">
-        <div className="relative aspect-[4/3] w-full">
-          <Image
-            src={product.image}
-            alt={name}
-            fill
-            className="object-cover transition duration-500 group-hover:scale-105"
-            unoptimized
-          />
+    <div className="card group flex h-full flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-panel">
+      <Link href={`/${locale}/products/${product.slug}`} className="relative block overflow-hidden">
+        <div className="relative h-40 w-full overflow-hidden bg-surface-muted">
+          <div className="absolute left-4 top-4 z-10">
+            <span className="theme-chip bg-white/90 text-foreground shadow-sm dark:bg-surface/80">{categoryLabel}</span>
+          </div>
+          <Image src={product.image} alt={name} fill className="object-cover transition duration-500 group-hover:scale-105" unoptimized />
         </div>
       </Link>
-      <div className="space-y-4 p-5 sm:p-6">
-        <div className="space-y-3">
-          <div className="flex items-center justify-between gap-3">
-            <span className="theme-chip">{categoryLabel}</span>
-            <span className="inline-flex rounded-full bg-success-soft px-3 py-1 text-xs font-semibold text-success">
-              {locale === "ar" ? "تسليم سريع" : "Fast delivery"}
-            </span>
-          </div>
-          <Link href={`/${locale}/products/${product.slug}`} className="block text-xl font-black leading-7 text-foreground">
+
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex-1 space-y-3">
+          <Link href={`/${locale}/products/${product.slug}`} className="block text-xl font-bold text-foreground">
             {name}
           </Link>
           <div className="flex flex-wrap items-center gap-2 text-sm text-muted">
             <RatingStars rating={rating} rtl={locale === "ar"} />
             <span className="font-semibold text-foreground">{rating.toFixed(1)}</span>
-            <span>({new Intl.NumberFormat(locale).format(ratingCount)} {locale === "ar" ? "تقييم" : "reviews"})</span>
+            <span>({new Intl.NumberFormat(locale).format(ratingCount)})</span>
           </div>
           <p className="line-clamp-2 text-sm leading-6 text-muted">{description}</p>
-          <p className="text-xs font-semibold text-brand">{deliveryText}</p>
+          <p className="text-sm font-medium text-muted">{deliveryText}</p>
         </div>
 
-        <div className="flex items-end justify-between gap-3">
-          <div>
-            <div className="text-2xl font-black text-foreground">{formatCurrency(product.price, locale)}</div>
-            <div className="text-xs text-muted">{locale === "ar" ? "الدفع الآمن والسريع" : "Secure and quick payment"}</div>
+        <div className="mt-5 border-t border-line pt-4">
+          <div className="mb-4 flex items-end justify-between gap-3">
+            <div>
+              <div className="text-xs text-muted">{locale === "ar" ? "السعر" : "Starting from"}</div>
+              <div className="text-lg font-bold text-foreground">{formatCurrency(product.price, locale)}</div>
+            </div>
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-white">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className={`h-5 w-5 fill-none stroke-current stroke-[2] ${locale === "ar" ? "rotate-180" : ""}`}>
+                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
           </div>
-          <div className="w-40 max-w-full">
-            <AddToCartButton
-              locale={locale}
-              compact
-              product={{
-                id: product.id,
-                slug: product.slug,
-                nameEn: product.nameEn,
-                nameAr: product.nameAr,
-                image: product.image,
-                category: product.category,
-                price: product.price
-              }}
-            />
-          </div>
+
+          <AddToCartButton
+            locale={locale}
+            compact
+            product={{
+              id: product.id,
+              slug: product.slug,
+              nameEn: product.nameEn,
+              nameAr: product.nameAr,
+              image: product.image,
+              category: product.category,
+              price: product.price
+            }}
+          />
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ const messages = {
     name: "اسمك",
     submit: "إرسال التقييم",
     sending: "جارٍ الإرسال...",
-    success: "شكراً لك، تم إرسال تقييمك للمراجعة.",
+    success: "شكرًا لك، تم إرسال تقييمك للمراجعة.",
     error: "حدث خطأ، حاول مرة أخرى."
   }
 } as const;
@@ -57,8 +57,8 @@ export function ReviewForm({ locale, productId }: { locale: Locale; productId: s
   }
 
   return (
-    <form onSubmit={onSubmit} className="card space-y-4 p-5 sm:p-6">
-      <div className="space-y-1">
+    <form onSubmit={onSubmit} className="card space-y-5 p-6">
+      <div className="space-y-2">
         <h3 className="text-lg font-bold text-foreground">{copy.title}</h3>
         <div className="flex flex-wrap gap-2">
           {[5, 4, 3, 2, 1].map((value) => (
@@ -66,7 +66,7 @@ export function ReviewForm({ locale, productId }: { locale: Locale; productId: s
               key={value}
               type="button"
               onClick={() => setRating(value)}
-              className={`rounded-2xl border px-3 py-2 text-sm font-semibold transition ${
+              className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
                 rating === value ? "border-brand bg-brand text-[var(--color-text-inverse)]" : "border-line bg-surface text-muted hover:bg-surface-muted"
               }`}
             >

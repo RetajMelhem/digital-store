@@ -9,6 +9,8 @@ import { AdminNav } from "@/components/admin-nav";
 import { AdminConfirmButton } from "@/components/admin-confirm-button";
 import { AdminProductForm } from "@/components/admin-product-form";
 
+export const dynamic = "force-dynamic";
+
 async function updateProduct(id: string, formData: FormData) {
   "use server";
   await requireAdmin();

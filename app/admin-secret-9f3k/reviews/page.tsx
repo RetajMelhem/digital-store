@@ -7,6 +7,8 @@ import { AdminNav } from "@/components/admin-nav";
 import { AdminConfirmButton } from "@/components/admin-confirm-button";
 import { AdminStatusBadge } from "@/components/admin-status-badge";
 
+export const dynamic = "force-dynamic";
+
 async function moderateReview(id: string, formData: FormData) {
   "use server";
   await requireAdmin();

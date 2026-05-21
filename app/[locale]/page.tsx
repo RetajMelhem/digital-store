@@ -2,9 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { ProductCard } from "@/components/product-card";
-import { Locale } from "@/lib/constants";
 import { dictionary, isLocale } from "@/lib/i18n";
 import { getReviewSummary } from "@/lib/reviews";
+import { HomeCategoryShortcuts } from "@/components/home-category-shortcuts";
+import { HomeTrustStrip } from "@/components/home-trust-strip";
+import { HomeHowItWorks } from "@/components/home-how-it-works";
+
+export const dynamic = "force-dynamic";
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -18,73 +22,70 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   });
 
   return (
-    <div className="container-page space-y-16 py-6 sm:space-y-20 sm:py-10">
-      <section className="grid gap-6 overflow-hidden rounded-[2rem] bg-hero px-5 py-8 text-[var(--color-hero-text)] shadow-card md:grid-cols-[1.2fr_0.8fr] md:px-10 md:py-14">
-        <div className="space-y-5">
-          <span className="inline-flex rounded-full bg-hero-surface px-3 py-1 text-xs font-semibold">{t.heroBadge}</span>
-          <h1 className="max-w-2xl text-3xl font-black leading-relaxed tracking-tight sm:text-4xl md:text-5xl md:leading-[1.35]">{t.heroTitle}</h1>
-          <p className="max-w-xl text-sm leading-7 text-hero-muted sm:text-base">{t.heroText}</p>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link href={`/${locale}/products`} className="btn h-12 rounded-2xl bg-white px-5 text-base font-semibold text-[#315efb] hover:bg-white/90 hover:text-[#274de0]">
-              {t.browseProducts}
-            </Link>
-            <Link href={`/${locale}/cart`} className="btn h-12 rounded-2xl border border-white/15 bg-hero-surface px-5 text-base text-white hover:bg-white/10">
-              {t.openCart}
-            </Link>
-          </div>
-          <div className="grid max-w-xl gap-3 pt-3 text-sm">
-            {[locale === "ar" ? "ثقة أعلى وتقييمات ظاهرة" : "Stronger trust signals"].map((item) => (
-              <div key={item} className="rounded-2xl border border-white/10 bg-hero-surface px-4 py-3 font-medium text-white/90">
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
+    <div>
+      <section className="relative overflow-hidden pb-20 pt-24 md:pb-24 md:pt-32">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[720px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/10 blur-[96px] dark:bg-brand/20 dark:blur-[120px]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-line to-transparent" />
 
-        <div className="grid gap-4 self-stretch rounded-[1.75rem] border border-line/80 bg-surface p-5 text-foreground shadow-soft sm:p-6">
-          <div>
-            <div className="text-sm font-black tracking-wide text-foreground">{t.howItWorks}</div>
-          </div>
-          <ol className="space-y-3 text-sm leading-6 text-foreground">
-            <li className="rounded-2xl border border-line/70 bg-surface-muted px-4 py-3 font-medium shadow-sm">{t.step1}</li>
-            <li className="rounded-2xl border border-line/70 bg-surface-muted px-4 py-3 font-medium shadow-sm">{t.step2}</li>
-            <li className="rounded-2xl border border-line/70 bg-surface-muted px-4 py-3 font-medium shadow-sm">{t.step3}</li>
-          </ol>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-line bg-surface-muted/70 p-4 shadow-sm">
-              <div className="text-base font-black text-foreground">
-                {locale === "ar" ? "تسليم المنتجات" : "Product delivery"}
-              </div>
-              <div className="mt-1 text-sm font-medium leading-6 text-foreground/85">
-                {locale === "ar" ? "بين الساعة 12 ظهراً إلى الساعة 12 مساءً" : "From 12 PM to 12 AM"}
-              </div>
+        <div className="container-page relative z-10">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-line bg-white/60 px-3 py-1.5 text-sm font-medium text-brand shadow-sm backdrop-blur-sm dark:bg-white/5">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
+              </span>
+              {t.heroBadge}
+            </div>
+
+            <h1 className="mt-8 text-5xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">{t.heroTitle}</h1>
+
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">{t.heroText}</p>
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link href={`/${locale}/products`} className="btn-primary w-full sm:w-auto">
+                {t.browseProducts}
+              </Link>
+              <a href="#how-it-works" className="w-full sm:w-auto">
+                <span className="btn-secondary w-full">{t.howItWorks}</span>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="space-y-6">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-black tracking-tight sm:text-3xl">{t.featuredProducts}</h2>
+      <HomeTrustStrip locale={locale} />
+      <HomeCategoryShortcuts locale={locale} />
+
+      <section id="featured-products" className="section-space bg-surface-muted/60 transition-colors duration-300">
+        <div className="container-page">
+          <div className="mb-10 flex items-end justify-between gap-4">
+            <div>
+              <h2 className="section-heading">{t.featuredProducts}</h2>
+              <p className="section-copy">
+                {locale === "ar" ? "أكثر المنتجات طلبًا في المتجر." : "The most popular subscriptions in the store."}
+              </p>
+            </div>
+            <Link href={`/${locale}/products`} className="hidden items-center gap-2 text-sm font-medium text-brand md:inline-flex">
+              {t.viewAll}
+            </Link>
           </div>
-          <Link href={`/${locale}/products`} className="btn h-12 rounded-2xl bg-white px-5 text-base font-semibold text-[#315efb] hover:bg-white/90 hover:text-[#274de0]">
-            {t.viewAll}
-          </Link>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {products.map((product) => {
-            const summary = getReviewSummary(product.reviews);
-            return (
-              <ProductCard
-                key={product.id}
-                locale={locale}
-                product={{ ...product, price: Number(product.price), rating: summary.average, ratingCount: summary.totalCount }}
-              />
-            );
-          })}
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {products.map((product) => {
+              const summary = getReviewSummary(product.reviews);
+              return (
+                <ProductCard
+                  key={product.id}
+                  locale={locale}
+                  product={{ ...product, price: Number(product.price), rating: summary.average, ratingCount: summary.totalCount }}
+                />
+              );
+            })}
+          </div>
         </div>
       </section>
+
+      <HomeHowItWorks locale={locale} />
     </div>
   );
 }

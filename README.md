@@ -147,6 +147,47 @@ For production use, make sure you set a strong `ADMIN_PASSWORD` and a long rando
 
 The project includes a `vercel-build` script for environments that need Prisma generation, migration deployment, and a production build in one step.
 
+## Docker
+
+This repository now includes a production-oriented `Dockerfile`, `.dockerignore`, and `docker-compose.yml`.
+
+### Build the image
+
+```bash
+docker build -t digital-store .
+```
+
+### Run the image against an existing PostgreSQL database
+
+```bash
+docker run --rm -p 3000:3000 \
+  -e DATABASE_URL="postgresql://username:password@host:5432/digital_store?schema=public" \
+  -e ADMIN_PASSWORD="change-this-password" \
+  -e ADMIN_SESSION_SECRET="replace-with-a-long-random-secret" \
+  -e CLIQ_PHONE="your-cliq-number" \
+  -e BANK_NAME="your-bank-name" \
+  -e WHATSAPP_PHONE="your-whatsapp-number" \
+  -e NEXT_PUBLIC_APP_URL="http://localhost:3000" \
+  -e RUN_MIGRATIONS="true" \
+  digital-store
+```
+
+If `RUN_MIGRATIONS=true`, the container applies Prisma migrations with `prisma migrate deploy` before starting the Next.js server.
+
+### Run with Docker Compose
+
+```bash
+DATABASE_URL="your-external-postgres-url" docker compose up --build
+```
+
+This starts only the `app` container on `http://localhost:3000` and connects it to your external PostgreSQL database.
+
+Important:
+
+- `DATABASE_URL` must point to your external database, not a local Docker Postgres service
+- Replace the placeholder secrets and payment values before using this outside local development
+- If you prefer, put `DATABASE_URL` in a local `.env` file and keep it out of git
+
 ## Security Notes
 
 - Never publish real secrets in `.env.example`

@@ -8,6 +8,8 @@ import { orderNotesSchema, updateOrderStatusSchema } from "@/lib/validators";
 import { AdminNav } from "@/components/admin-nav";
 import { AdminStatusBadge } from "@/components/admin-status-badge";
 
+export const dynamic = "force-dynamic";
+
 async function updateStatus(orderId: string, formData: FormData) {
   "use server";
   await requireAdmin();

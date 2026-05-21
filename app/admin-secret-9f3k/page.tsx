@@ -7,6 +7,8 @@ import { formatCurrency } from "@/lib/utils";
 import { AdminNav } from "@/components/admin-nav";
 import { AdminStatusBadge } from "@/components/admin-status-badge";
 
+export const dynamic = "force-dynamic";
+
 async function login(formData: FormData) {
   "use server";
   const password = String(formData.get("password") || "");
@@ -25,12 +27,29 @@ export default async function AdminPage() {
   const authed = await isAdminAuthenticated();
   if (!authed) {
     return (
-      <div className="container-page py-10">
-        <form action={login} className="mx-auto max-w-md card space-y-4 p-6">
-          <h1 className="text-2xl font-black text-foreground">Admin Login</h1>
-          <input name="password" type="password" className="input" placeholder="Admin password" required />
-          <button className="btn-primary w-full">Unlock Dashboard</button>
-        </form>
+      <div className="relative min-h-screen overflow-hidden bg-background">
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.12),transparent_28%),linear-gradient(180deg,rgba(15,23,42,0.18),transparent_26%),linear-gradient(180deg,#2d3244_0%,#12182a_42%,#050b1b_100%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="fixed inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
+        />
+
+        <div className="relative z-10 grid min-h-screen place-items-center px-4 py-16">
+          <div className="w-full max-w-md rounded-[2rem] border border-line/80 bg-[color:color-mix(in_srgb,var(--color-bg-elevated)_92%,transparent)] p-6 shadow-panel backdrop-blur-sm md:p-8">
+            <div className="mb-6 space-y-2">
+              <h1 className="text-3xl font-black tracking-tight text-foreground">Admin Login</h1>
+              <p className="text-sm leading-6 text-muted">Enter the admin password to unlock the dashboard.</p>
+            </div>
+
+            <form action={login} className="space-y-4">
+              <input name="password" type="password" className="input h-14" placeholder="Admin password" required />
+              <button className="btn-primary h-14 w-full text-base">Unlock Dashboard</button>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }

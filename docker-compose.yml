@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      RUN_MIGRATIONS: "true"
+    ports:
+      - "3000:3000"
+    restart: unless-stopped

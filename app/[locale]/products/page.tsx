@@ -6,6 +6,8 @@ import { Locale } from "@/lib/constants";
 import { dictionary, isLocale } from "@/lib/i18n";
 import { getReviewSummary } from "@/lib/reviews";
 
+export const dynamic = "force-dynamic";
+
 type SortOption = "newest" | "price-asc" | "price-desc" | "rating";
 type FilterOption = "all" | "ai" | "gaming" | "social-media";
 
@@ -70,15 +72,23 @@ export default async function ProductsPage({
       : summarizedProducts;
 
   return (
-    <div className="container-page space-y-8 py-6 sm:py-10">
-      <div className="overflow-hidden rounded-[2rem] border border-line bg-surface p-6 shadow-card sm:p-8">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-black tracking-tight sm:text-4xl">{t.allProductsTitle}</h1>
-          <p className="max-w-2xl text-muted">{t.allProductsText}</p>
+    <div className="min-h-screen py-8 sm:py-10">
+      <div className="container-page space-y-10">
+        <div className="space-y-3">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {filter === "all"
+              ? t.allProductsTitle
+              : filter === "ai"
+                ? t.aiFilter
+                : filter === "gaming"
+                  ? t.gamingFilter
+                  : t.socialMediaFilter}
+          </h1>
+          <p className="text-base text-muted">{t.allProductsText}</p>
         </div>
 
-        <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-wrap gap-3">
             {[
               { label: t.allProductsFilter, value: "all" as FilterOption },
               { label: t.aiFilter, value: "ai" as FilterOption },
@@ -91,8 +101,10 @@ export default async function ProductsPage({
                 <Link
                   key={option.value}
                   href={getProductsUrl(locale, option.value, sort)}
-                  className={`rounded-2xl px-4 py-2 text-sm font-semibold transition ${
-                    active ? "bg-brand text-[var(--color-text-inverse)] shadow-soft" : "bg-surface-muted text-muted hover:bg-secondary hover:text-foreground"
+                  className={`rounded-full border px-5 py-2.5 text-sm font-medium transition ${
+                    active
+                      ? "border-brand bg-brand text-[var(--color-text-inverse)] shadow-soft"
+                      : "border-line bg-surface text-muted shadow-sm hover:bg-secondary hover:text-foreground"
                   }`}
                 >
                   {option.label}
@@ -115,8 +127,10 @@ export default async function ProductsPage({
                 <Link
                   key={option.value}
                   href={getProductsUrl(locale, filter, option.value)}
-                  className={`rounded-2xl px-4 py-2 font-semibold transition ${
-                    active ? "bg-brand text-[var(--color-text-inverse)] shadow-soft" : "bg-surface-muted text-muted hover:bg-secondary hover:text-foreground"
+                  className={`rounded-full border px-4 py-2 font-medium transition ${
+                    active
+                      ? "border-brand bg-brand text-[var(--color-text-inverse)] shadow-soft"
+                      : "border-line bg-surface text-muted shadow-sm hover:bg-secondary hover:text-foreground"
                   }`}
                 >
                   {option.label}
@@ -125,25 +139,25 @@ export default async function ProductsPage({
             })}
           </div>
         </div>
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {visibleProducts.length ? (
-          visibleProducts.map((product) => <ProductCard key={product.id} locale={locale} product={product} />)
-        ) : (
-          <div className="card rounded-[2rem] p-8 text-center md:col-span-2 xl:col-span-3">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-surface-muted text-brand shadow-sm">
-              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current stroke-[1.8]">
-                <path d="M4 7h16M7 4h10l1 3H6l1-3Zm0 0L5 20h14L17 4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {visibleProducts.length ? (
+            visibleProducts.map((product) => <ProductCard key={product.id} locale={locale} product={product} />)
+          ) : (
+            <div className="py-20 text-center md:col-span-2 xl:col-span-3">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-surface-muted text-muted">
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-8 w-8 fill-none stroke-current stroke-[1.8]">
+                  <path d="M4 7h16M7 4h10l1 3H6l1-3Zm0 0L5 20h14L17 4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <h2 className="mt-4 text-xl font-medium text-foreground">{t.emptyProductsTitle}</h2>
+              <p className="mx-auto mt-2 max-w-xl text-sm leading-7 text-muted">{t.emptyProductsText}</p>
+              <Link href={getProductsUrl(locale, "all", "newest")} className="btn-secondary mt-6">
+                {t.showAllProducts}
+              </Link>
             </div>
-            <h2 className="mt-4 text-2xl font-black tracking-tight text-foreground">{t.emptyProductsTitle}</h2>
-            <p className="mx-auto mt-2 max-w-xl text-sm leading-7 text-muted">{t.emptyProductsText}</p>
-            <Link href={getProductsUrl(locale, "all", "newest")} className="btn-primary mt-6">
-              {t.showAllProducts}
-            </Link>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

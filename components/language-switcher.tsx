@@ -18,12 +18,15 @@ export function LanguageSwitcher({ locale }: { locale: Locale }) {
   return (
     <Link
       href={nextUrl}
-      aria-label={locale === "ar" ? "Switch language to English" : "تغيير اللغة إلى العربية"}
-      className="shrink-0 rounded-2xl border border-line bg-surface px-3 py-2 text-sm font-semibold text-foreground hover:bg-surface-muted max-[360px]:px-2.5"
+      aria-label={locale === "ar" ? "Switch language to English" : "Change language to Arabic"}
+      className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl border border-line bg-surface px-3 text-sm font-semibold text-foreground shadow-sm hover:bg-surface-muted"
       onClick={() => saveLocale(target)}
     >
-      <span className="max-[360px]:hidden">{locale === "ar" ? "English" : "العربية"}</span>
-      <span className="hidden max-[360px]:inline">{locale === "ar" ? "EN" : "AR"}</span>
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[1.9]">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3a14.5 14.5 0 0 1 0 18M12 3a14.5 14.5 0 0 0 0 18" strokeLinecap="round" />
+      </svg>
+      <span>{locale === "ar" ? "EN" : "AR"}</span>
     </Link>
   );
 }

@@ -5,6 +5,8 @@ import { ADMIN_ROUTE } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { AdminNav } from "@/components/admin-nav";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminProductsPage({
   searchParams
 }: {
