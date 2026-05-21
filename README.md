@@ -13,7 +13,7 @@ This application provides a lightweight e-commerce workflow for digital products
 - Cart and checkout flow optimized for digital orders
 - Order creation with phone-based customer details
 - WhatsApp payment follow-up link generation
-- Admin dashboard for products, orders, and reviews
+- Admin dashboard for products, orders, and reviews (admin-secret-9f3k)
 - Review moderation workflow
 - Basic rate limiting for order submission and admin login
 - Prisma-based PostgreSQL data layer
