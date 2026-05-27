@@ -43,24 +43,22 @@ export default async function AdminProductsPage({
         }
       }
     },
-    orderBy:
-      sort === "price-asc"
-        ? { price: "asc" }
-        : sort === "price-desc"
-          ? { price: "desc" }
-          : { updatedAt: "desc" }
+    orderBy: sort === "price-asc" ? { price: "asc" } : sort === "price-desc" ? { price: "desc" } : { updatedAt: "desc" }
   });
 
   return (
     <div className="container-page space-y-6 py-10">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-3xl font-black text-foreground">Products</h1>
+          <span className="theme-chip">Catalog</span>
+          <h1 className="mt-3 text-3xl font-black text-foreground">Products</h1>
           <p className="mt-2 text-muted">Search, filter, sort, and manage product visibility.</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <AdminNav />
-          <Link href={`${ADMIN_ROUTE}/products/new`} className="btn-primary">Add Product</Link>
+          <Link href={`${ADMIN_ROUTE}/products/new`} className="btn-primary">
+            Add Product
+          </Link>
         </div>
       </div>
 
@@ -90,7 +88,51 @@ export default async function AdminProductsPage({
         <button className="btn-primary">Apply</button>
       </form>
 
-      <div className="card overflow-x-auto">
+      <div className="space-y-4 lg:hidden">
+        {products.map((product) => (
+          <div key={product.id} className="card space-y-4 p-5">
+            <div className="space-y-1">
+              <div className="font-semibold text-foreground">{product.nameEn}</div>
+              <div className="break-all text-xs text-muted">{product.slug}</div>
+            </div>
+
+            <dl className="grid gap-3 text-sm sm:grid-cols-2">
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-muted">Category</dt>
+                <dd className="mt-1 text-foreground">{product.category}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-muted">Price</dt>
+                <dd className="mt-1 text-foreground">{formatCurrency(Number(product.price), "en")}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-muted">Delivery</dt>
+                <dd className="mt-1 text-muted">{product.deliveryType === "PRIVATE_ACCOUNT" ? "Private account" : "Customer account"}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-muted">Visibility</dt>
+                <dd className="mt-1 text-muted">{product.isActive ? "Visible" : "Hidden"}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-muted">Homepage</dt>
+                <dd className="mt-1 text-muted">{product.isFeatured ? "Featured" : "Standard"}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-muted">Stats</dt>
+                <dd className="mt-1 text-muted">
+                  {product._count.orderItems} orders / {product._count.reviews} reviews
+                </dd>
+              </div>
+            </dl>
+
+            <Link href={`${ADMIN_ROUTE}/products/${product.id}`} className="btn-secondary w-full">
+              Open
+            </Link>
+          </div>
+        ))}
+      </div>
+
+      <div className="card hidden overflow-x-auto lg:block">
         <table className="min-w-full text-sm">
           <thead className="bg-surface-muted text-left text-muted">
             <tr>

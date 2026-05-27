@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "audit:responsive": "playwright test tests/responsive-audit.spec.ts --config=playwright.config.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "tsx prisma/seed.ts",
@@ -17,12 +18,14 @@
     "@prisma/client": "^6.6.0",
     "@vercel/blob": "^1.1.1",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.522.0",
     "next": "^15.2.8",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",

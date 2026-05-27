@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { BarChart3, Boxes, ClipboardList, MessageSquareQuote, Plus } from "lucide-react";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
-import { clearAdminSessionCookie, isAdminAuthenticated, setAdminSessionCookie } from "@/lib/auth";
-import { ADMIN_ROUTE } from "@/lib/constants";
-import { formatCurrency } from "@/lib/utils";
 import { AdminNav } from "@/components/admin-nav";
 import { AdminStatusBadge } from "@/components/admin-status-badge";
+import { clearAdminSessionCookie, isAdminAuthenticated, setAdminSessionCookie } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { ADMIN_ROUTE } from "@/lib/constants";
+import { formatCurrency } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -32,13 +33,10 @@ export default async function AdminPage() {
           aria-hidden="true"
           className="fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.12),transparent_28%),linear-gradient(180deg,rgba(15,23,42,0.18),transparent_26%),linear-gradient(180deg,#2d3244_0%,#12182a_42%,#050b1b_100%)]"
         />
-        <div
-          aria-hidden="true"
-          className="fixed inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
-        />
+        <div aria-hidden="true" className="fixed inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
         <div className="relative z-10 grid min-h-screen place-items-center px-4 py-16">
-          <div className="w-full max-w-md rounded-[2rem] border border-line/80 bg-[color:color-mix(in_srgb,var(--color-bg-elevated)_92%,transparent)] p-6 shadow-panel backdrop-blur-sm md:p-8">
+          <div className="w-full max-w-md rounded-[2rem] border border-white/10 bg-[color:color-mix(in_srgb,var(--color-bg-elevated)_92%,transparent)] p-6 shadow-panel backdrop-blur-sm md:p-8">
             <div className="mb-6 space-y-2">
               <h1 className="text-3xl font-black tracking-tight text-foreground">Admin Login</h1>
               <p className="text-sm leading-6 text-muted">Enter the admin password to unlock the dashboard.</p>
@@ -92,38 +90,60 @@ export default async function AdminPage() {
     <div className="container-page space-y-8 py-10">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="space-y-2">
+          <span className="theme-chip">Operations</span>
           <h1 className="text-3xl font-black text-foreground">Admin Dashboard</h1>
           <p className="text-muted">Overview, actions, and shortcuts for AccuUp operations.</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <AdminNav />
-          <form action={logout}><button className="btn-secondary">Logout</button></form>
+          <form action={logout}>
+            <button className="btn-secondary">Logout</button>
+          </form>
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {[
-          { label: "Products", value: products.length },
-          { label: "Visible products", value: visibleCount },
-          { label: "Orders", value: orderCount },
-          { label: "New today", value: todayCount },
-          { label: "Pending", value: pendingCount },
-          { label: "Paid", value: paidCount },
-          { label: "Delivered", value: deliveredCount },
-          { label: "Pending reviews", value: pendingReviews }
-        ].map((item) => (
-          <div key={item.label} className="card p-5">
-            <div className="text-sm text-muted">{item.label}</div>
-            <div className="mt-2 text-3xl font-black text-foreground">{item.value}</div>
-          </div>
-        ))}
+          { label: "Products", value: products.length, icon: Boxes },
+          { label: "Visible products", value: visibleCount, icon: Boxes },
+          { label: "Orders", value: orderCount, icon: ClipboardList },
+          { label: "New today", value: todayCount, icon: BarChart3 },
+          { label: "Pending", value: pendingCount, icon: ClipboardList },
+          { label: "Paid", value: paidCount, icon: ClipboardList },
+          { label: "Delivered", value: deliveredCount, icon: ClipboardList },
+          { label: "Pending reviews", value: pendingReviews, icon: MessageSquareQuote }
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <div key={item.label} className="card p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-sm text-muted">{item.label}</div>
+                  <div className="mt-2 text-3xl font-black text-foreground">{item.value}</div>
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-brand/10 bg-brand/5 text-brand">
+                  <Icon className="h-5 w-5" strokeWidth={1.9} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <Link href={`${ADMIN_ROUTE}/products/new`} className="btn-primary">Add Product</Link>
-        <Link href={`${ADMIN_ROUTE}/orders`} className="btn-secondary">Manage Orders</Link>
-        <Link href={`${ADMIN_ROUTE}/products`} className="btn-secondary">Manage Products</Link>
-        <Link href={`${ADMIN_ROUTE}/reviews`} className="btn-secondary">Moderate Reviews</Link>
+        <Link href={`${ADMIN_ROUTE}/products/new`} className="btn-primary gap-2">
+          <Plus className="h-4 w-4" strokeWidth={2} />
+          Add Product
+        </Link>
+        <Link href={`${ADMIN_ROUTE}/orders`} className="btn-secondary">
+          Manage Orders
+        </Link>
+        <Link href={`${ADMIN_ROUTE}/products`} className="btn-secondary">
+          Manage Products
+        </Link>
+        <Link href={`${ADMIN_ROUTE}/reviews`} className="btn-secondary">
+          Moderate Reviews
+        </Link>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">

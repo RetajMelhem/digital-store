@@ -1,0 +1,269 @@
+{
+  "generatedAt": "2026-05-26T22:55:53.083Z",
+  "screenshotDir": "responsive-audit\\screenshots",
+  "viewports": [
+    {
+      "name": "360x800",
+      "width": 360,
+      "height": 800
+    },
+    {
+      "name": "390x844",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "name": "768x1024",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "name": "1366x768",
+      "width": 1366,
+      "height": 768
+    },
+    {
+      "name": "1440x900",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "1920x1080",
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "routes": [
+    {
+      "key": "root-redirect",
+      "path": "/"
+    },
+    {
+      "key": "ar-home",
+      "path": "/ar"
+    },
+    {
+      "key": "en-home",
+      "path": "/en"
+    },
+    {
+      "key": "ar-products",
+      "path": "/ar/products"
+    },
+    {
+      "key": "en-products",
+      "path": "/en/products"
+    },
+    {
+      "key": "ar-product-detail",
+      "path": "/ar/products/chatgpt-plus-account-1m"
+    },
+    {
+      "key": "en-product-detail",
+      "path": "/en/products/chatgpt-plus-account-1m"
+    },
+    {
+      "key": "ar-cart",
+      "path": "/ar/cart"
+    },
+    {
+      "key": "en-cart",
+      "path": "/en/cart"
+    },
+    {
+      "key": "ar-checkout",
+      "path": "/ar/checkout"
+    },
+    {
+      "key": "en-checkout",
+      "path": "/en/checkout"
+    },
+    {
+      "key": "ar-order-success",
+      "path": "/ar/order-success?orderId=cmnyrhegq0000ih0abk1v7mtx&amount=9.99&customerName=Responsive+Audit&phone=0799999999"
+    },
+    {
+      "key": "en-order-success",
+      "path": "/en/order-success?orderId=cmnyrhegq0000ih0abk1v7mtx&amount=9.99&customerName=Responsive+Audit&phone=0799999999"
+    },
+    {
+      "key": "admin-login",
+      "path": "/admin-secret-9f3k"
+    },
+    {
+      "key": "admin-dashboard",
+      "path": "/admin-secret-9f3k",
+      "requiresAdmin": true
+    },
+    {
+      "key": "admin-products",
+      "path": "/admin-secret-9f3k/products",
+      "requiresAdmin": true
+    },
+    {
+      "key": "admin-product-new",
+      "path": "/admin-secret-9f3k/products/new",
+      "requiresAdmin": true
+    },
+    {
+      "key": "admin-product-detail",
+      "path": "/admin-secret-9f3k/products/cmmyspy5p0000mo8x60esmyyn",
+      "requiresAdmin": true
+    },
+    {
+      "key": "admin-orders",
+      "path": "/admin-secret-9f3k/orders",
+      "requiresAdmin": true
+    },
+    {
+      "key": "admin-order-detail",
+      "path": "/admin-secret-9f3k/orders/cmnyrhegq0000ih0abk1v7mtx",
+      "requiresAdmin": true
+    },
+    {
+      "key": "admin-reviews",
+      "path": "/admin-secret-9f3k/reviews",
+      "requiresAdmin": true
+    }
+  ],
+  "issues": {
+    "360x800": {
+      "root-redirect": [],
+      "ar-home": [],
+      "en-home": [],
+      "ar-products": [],
+      "en-products": [],
+      "ar-product-detail": [],
+      "en-product-detail": [],
+      "ar-cart": [],
+      "en-cart": [],
+      "ar-checkout": [],
+      "en-checkout": [],
+      "ar-order-success": [],
+      "en-order-success": [],
+      "admin-login": [],
+      "admin-dashboard": [],
+      "admin-products": [],
+      "admin-product-new": [],
+      "admin-product-detail": [],
+      "admin-orders": [],
+      "admin-order-detail": [],
+      "admin-reviews": []
+    },
+    "390x844": {
+      "root-redirect": [],
+      "ar-home": [],
+      "en-home": [],
+      "ar-products": [],
+      "en-products": [],
+      "ar-product-detail": [],
+      "en-product-detail": [],
+      "ar-cart": [],
+      "en-cart": [],
+      "ar-checkout": [],
+      "en-checkout": [],
+      "ar-order-success": [],
+      "en-order-success": [],
+      "admin-login": [],
+      "admin-dashboard": [],
+      "admin-products": [],
+      "admin-product-new": [],
+      "admin-product-detail": [],
+      "admin-orders": [],
+      "admin-order-detail": [],
+      "admin-reviews": []
+    },
+    "768x1024": {
+      "root-redirect": [],
+      "ar-home": [],
+      "en-home": [],
+      "ar-products": [],
+      "en-products": [],
+      "ar-product-detail": [],
+      "en-product-detail": [],
+      "ar-cart": [],
+      "en-cart": [],
+      "ar-checkout": [],
+      "en-checkout": [],
+      "ar-order-success": [],
+      "en-order-success": [],
+      "admin-login": [],
+      "admin-dashboard": [],
+      "admin-products": [],
+      "admin-product-new": [],
+      "admin-product-detail": [],
+      "admin-orders": [],
+      "admin-order-detail": [],
+      "admin-reviews": []
+    },
+    "1366x768": {
+      "root-redirect": [],
+      "ar-home": [],
+      "en-home": [],
+      "ar-products": [],
+      "en-products": [],
+      "ar-product-detail": [],
+      "en-product-detail": [],
+      "ar-cart": [],
+      "en-cart": [],
+      "ar-checkout": [],
+      "en-checkout": [],
+      "ar-order-success": [],
+      "en-order-success": [],
+      "admin-login": [],
+      "admin-dashboard": [],
+      "admin-products": [],
+      "admin-product-new": [],
+      "admin-product-detail": [],
+      "admin-orders": [],
+      "admin-order-detail": [],
+      "admin-reviews": []
+    },
+    "1440x900": {
+      "root-redirect": [],
+      "ar-home": [],
+      "en-home": [],
+      "ar-products": [],
+      "en-products": [],
+      "ar-product-detail": [],
+      "en-product-detail": [],
+      "ar-cart": [],
+      "en-cart": [],
+      "ar-checkout": [],
+      "en-checkout": [],
+      "ar-order-success": [],
+      "en-order-success": [],
+      "admin-login": [],
+      "admin-dashboard": [],
+      "admin-products": [],
+      "admin-product-new": [],
+      "admin-product-detail": [],
+      "admin-orders": [],
+      "admin-order-detail": [],
+      "admin-reviews": []
+    },
+    "1920x1080": {
+      "root-redirect": [],
+      "ar-home": [],
+      "en-home": [],
+      "ar-products": [],
+      "en-products": [],
+      "ar-product-detail": [],
+      "en-product-detail": [],
+      "ar-cart": [],
+      "en-cart": [],
+      "ar-checkout": [],
+      "en-checkout": [],
+      "ar-order-success": [],
+      "en-order-success": [],
+      "admin-login": [],
+      "admin-dashboard": [],
+      "admin-products": [],
+      "admin-product-new": [],
+      "admin-product-detail": [],
+      "admin-orders": [],
+      "admin-order-detail": [],
+      "admin-reviews": []
+    }
+  }
+}

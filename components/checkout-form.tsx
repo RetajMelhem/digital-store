@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { AlertCircle, CheckCircle2, CreditCard, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { IconFrame } from "@/components/icon-frame";
 import { useCart } from "@/components/cart-provider";
 import { Locale } from "@/lib/constants";
 import { dictionary } from "@/lib/i18n";
@@ -14,9 +16,7 @@ function isValidJordanPhone(phone: string) {
 }
 
 function getPhoneErrorMessage(locale: Locale) {
-  return locale === "ar"
-    ? "يرجى إدخال رقم هاتف أردني صحيح يبدأ بـ 07 أو +9627"
-    : "Please enter a valid Jordan phone number starting with 07 or +9627";
+  return locale === "ar" ? "يرجى إدخال رقم هاتف أردني صحيح يبدأ بـ 07 أو +9627" : "Please enter a valid Jordan phone number starting with 07 or +9627";
 }
 
 function getApiErrorMessage(error: unknown, locale: Locale) {
@@ -43,9 +43,6 @@ export function CheckoutForm({ locale }: { locale: Locale }) {
   const t = dictionary[locale];
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const paymentPhone = process.env.NEXT_PUBLIC_CLIQ_PHONE || process.env.NEXT_PUBLIC_PAYMENT_PHONE || "0776323241";
-  const paymentBank = process.env.NEXT_PUBLIC_BANK_NAME || "CliQ";
-
   async function onSubmit(formData: FormData) {
     if (!items.length) {
       setError(t.createAtLeastOne);
@@ -99,32 +96,40 @@ export function CheckoutForm({ locale }: { locale: Locale }) {
 
   return (
     <div className="min-h-screen py-8">
-      <div className="container-page max-w-5xl">
-        <div className="mb-10 flex items-center justify-center">
-          <div className="flex items-center gap-2 text-brand font-medium">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/10 text-sm">1</div>
-            <span className="hidden sm:inline">{locale === "ar" ? "السلة" : "Cart"}</span>
-          </div>
-          <div className="mx-4 h-px w-12 bg-line" />
-          <div className="flex items-center gap-2 font-medium text-foreground">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand text-sm text-white shadow-sm">2</div>
-            <span className="hidden sm:inline">{t.checkoutTitle}</span>
-          </div>
-          <div className="mx-4 h-px w-12 bg-line" />
-          <div className="flex items-center gap-2 font-medium text-muted">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-surface-muted text-sm">3</div>
-            <span className="hidden sm:inline">{t.paymentTitle}</span>
+      <div className="container-page max-w-6xl">
+        <div className="mb-8 rounded-[28px] border border-white/70 bg-white/80 p-5 shadow-premium backdrop-blur sm:rounded-[32px] sm:p-8 dark:border-white/10 dark:bg-white/5">
+          <div className="flex items-center justify-center gap-2 text-center min-[380px]:gap-3 sm:gap-4">
+            <div className="flex min-w-0 items-center gap-2 text-brand font-medium">
+              <IconFrame tone="brand" size="sm" className="rounded-full">
+                <ShoppingBag className="h-4 w-4" strokeWidth={1.9} />
+              </IconFrame>
+              <span className="hidden sm:inline">{locale === "ar" ? "السلة" : "Cart"}</span>
+            </div>
+            <div className="h-px w-6 bg-line min-[380px]:w-8 sm:w-16" />
+            <div className="flex min-w-0 items-center gap-2 font-medium text-foreground">
+              <IconFrame tone="brand" size="sm" className="rounded-full bg-brand text-white">
+                <CheckCircle2 className="h-4 w-4" strokeWidth={1.9} />
+              </IconFrame>
+              <span className="hidden sm:inline">{t.checkoutTitle}</span>
+            </div>
+            <div className="h-px w-6 bg-line min-[380px]:w-8 sm:w-16" />
+            <div className="flex min-w-0 items-center gap-2 font-medium text-muted">
+              <IconFrame tone="neutral" size="sm" className="rounded-full">
+                <CreditCard className="h-4 w-4" strokeWidth={1.9} />
+              </IconFrame>
+              <span className="hidden sm:inline">{t.paymentTitle}</span>
+            </div>
           </div>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
-          <form action={onSubmit} className="card space-y-6 p-6 md:p-8">
+        <div className="grid gap-6 lg:grid-cols-[1fr_380px] lg:gap-8">
+          <form action={onSubmit} className="rounded-[28px] border border-white/70 bg-white/85 p-5 shadow-premium backdrop-blur sm:rounded-[32px] sm:p-6 md:p-8 dark:border-white/10 dark:bg-white/5">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-foreground">{t.checkoutTitle}</h1>
-              <p className="mt-2 text-muted">{t.checkoutText}</p>
+              <h1 className="text-2xl font-black tracking-tight text-foreground sm:text-3xl">{t.checkoutTitle}</h1>
+              <p className="mt-2 max-w-2xl text-sm leading-7 text-muted sm:text-base">{t.checkoutText}</p>
             </div>
 
-            <div className="space-y-5 border-t border-line pt-6">
+            <div className="mt-8 space-y-5 border-t border-line/70 pt-6">
               <div>
                 <label className="label">{t.fullName}</label>
                 <input name="customerName" className="input" placeholder={t.fullName} required />
@@ -132,27 +137,16 @@ export function CheckoutForm({ locale }: { locale: Locale }) {
 
               <div>
                 <label className="label">{t.phoneNumber}</label>
-                <input
-                  name="phone"
-                  type="tel"
-                  inputMode="tel"
-                  className="input"
-                  placeholder={t.phonePlaceholder}
-                  required
-                />
+                <input name="phone" type="tel" inputMode="tel" className="input" placeholder={t.phonePlaceholder} required />
               </div>
             </div>
 
             <input name="website" className="hidden" tabIndex={-1} autoComplete="off" />
 
             {error ? (
-              <div className="alert-error" role="alert">
+              <div className="alert-error mt-6" role="alert">
                 <div className="flex items-start gap-3">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 shrink-0 fill-none stroke-current stroke-[2]">
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M12 8v5" strokeLinecap="round" />
-                    <circle cx="12" cy="16.5" r="1" fill="currentColor" stroke="none" />
-                  </svg>
+                  <AlertCircle aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0" strokeWidth={2} />
                   <div>
                     <div className="text-sm font-bold">{t.errorNoticeTitle}</div>
                     <p className="mt-1 text-sm leading-6">{error}</p>
@@ -161,72 +155,38 @@ export function CheckoutForm({ locale }: { locale: Locale }) {
               </div>
             ) : null}
 
-            <button className="btn-primary h-14 w-full text-base" disabled={loading}>
+            <button className="btn-primary mt-6 h-14 w-full text-base" disabled={loading}>
               {loading ? t.submitting : t.placeOrder}
             </button>
           </form>
 
           <aside className="space-y-6">
-            <div className="card p-6 md:p-8">
-              <div className="mb-6 border-b border-line pb-4">
-                <h2 className="text-xl font-bold text-foreground">{t.orderSummary}</h2>
+            <div className="rounded-[28px] border border-white/70 bg-white/85 p-5 shadow-premium backdrop-blur sm:rounded-[32px] sm:p-6 md:p-8 dark:border-white/10 dark:bg-white/5">
+              <div className="mb-6 border-b border-line/70 pb-4">
+                <h2 className="text-lg font-black text-foreground sm:text-xl">{t.orderSummary}</h2>
               </div>
 
               <div className="space-y-3">
                 {items.map((item) => (
-                  <div key={item.id} className="flex items-center gap-3 rounded-xl border border-line bg-surface-muted p-3">
-                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-line bg-surface">
+                  <div key={item.id} className="flex items-start gap-3 rounded-2xl border border-line/70 bg-surface p-3">
+                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-line bg-surface-muted">
                       <Image src={item.image} alt={getLocalizedName(item, locale)} fill className="object-cover" unoptimized />
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <div className="truncate font-semibold text-foreground">{getLocalizedName(item, locale)}</div>
-                      <div className="mt-1 text-xs text-muted">
-                        {locale === "ar" ? `الكمية: ${item.quantity}` : `Qty: ${item.quantity}`}
-                      </div>
-                      <div className="mt-1 text-sm font-semibold text-foreground">
-                        {formatCurrency(item.price * item.quantity, locale)}
-                      </div>
+                      <div className="line-clamp-2 break-words font-semibold leading-6 text-foreground">{getLocalizedName(item, locale)}</div>
+                      <div className="mt-1 text-xs text-muted">{locale === "ar" ? `الكمية: ${item.quantity}` : `Qty: ${item.quantity}`}</div>
+                      <div className="mt-1 text-sm font-semibold text-foreground">{formatCurrency(item.price * item.quantity, locale)}</div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-4 border-t border-line pt-4 text-lg font-black text-foreground">
+              <div className="mt-4 rounded-2xl border border-brand/10 bg-brand/5 p-4 text-base font-black text-foreground sm:text-lg">
                 {t.total}: {formatCurrency(subtotal, locale)}
               </div>
             </div>
 
-            <div className="card p-6 md:p-8">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand/10 text-brand">
-                  <span className="font-bold text-xl">C</span>
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-foreground">CliQ</h2>
-                  <p className="text-sm text-muted">{locale === "ar" ? "تحقق يدوي" : "Manual verification"}</p>
-                </div>
-              </div>
-
-              <p className="mb-5 text-sm leading-7 text-muted">
-                {locale === "ar"
-                  ? "بعد إنشاء الطلب، ستنتقل إلى صفحة الدفع ثم ترسل إثبات التحويل على واتساب لتأكيد التفعيل."
-                  : "After placing the order, you will continue to the payment page and send your transfer proof on WhatsApp for activation."}
-              </p>
-
-              <div className="rounded-xl border border-line bg-surface-muted p-4">
-                <div className="flex justify-between gap-3">
-                  <span className="text-sm text-muted">{locale === "ar" ? "رقم التحويل" : "Transfer number"}</span>
-                  <span dir="ltr" className="font-mono text-lg font-bold text-foreground">{paymentPhone}</span>
-                </div>
-                <div className="mt-4 border-t border-line pt-4">
-                  <div className="flex justify-between gap-3">
-                    <span className="text-sm text-muted">{locale === "ar" ? "البنك" : "Bank"}</span>
-                    <span className="font-medium text-foreground">{paymentBank}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </aside>
         </div>
       </div>

@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { AdminNav } from "@/components/admin-nav";
+import { AdminStatusBadge } from "@/components/admin-status-badge";
 import { requireAdmin } from "@/lib/auth";
+import { prisma } from "@/lib/db";
 import { ADMIN_ROUTE } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { updateOrderStatusSchema } from "@/lib/validators";
-import { AdminNav } from "@/components/admin-nav";
-import { AdminStatusBadge } from "@/components/admin-status-badge";
 
 export const dynamic = "force-dynamic";
 
@@ -68,7 +68,8 @@ export default async function OrdersPage({
     <div className="container-page space-y-6 py-10">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-3xl font-black text-foreground">Orders</h1>
+          <span className="theme-chip">Orders</span>
+          <h1 className="mt-3 text-3xl font-black text-foreground">Orders</h1>
           <p className="mt-2 text-muted">Search, filter, update, and inspect every order.</p>
         </div>
         <AdminNav />

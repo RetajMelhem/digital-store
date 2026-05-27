@@ -4,6 +4,8 @@ import { getDirection } from "@/lib/utils";
 import { isLocale } from "@/lib/i18n";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { MobileBottomNav } from "@/components/mobile-bottom-nav";
+import { WhatsAppFloating } from "@/components/whatsapp-floating";
 
 export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
@@ -22,8 +24,10 @@ export default async function LocaleLayout({
   return (
     <div lang={locale} dir={getDirection(locale as Locale)}>
       <SiteHeader locale={locale as Locale} />
-      <main className="min-h-[calc(100vh-132px)]">{children}</main>
+      <main className="min-h-[calc(100vh-132px)] pb-24 md:pb-0">{children}</main>
       <SiteFooter locale={locale as Locale} />
+      <MobileBottomNav locale={locale as Locale} />
+      <WhatsAppFloating />
     </div>
   );
 }

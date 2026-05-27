@@ -1,38 +1,67 @@
+import { MapPin, MessageCircle, ShieldCheck, Zap } from "lucide-react";
+import { IconFrame } from "@/components/icon-frame";
 import { Locale } from "@/lib/constants";
 
 const items = [
-  { key: "secure", titleEn: "Verified payment", titleAr: "دفع موثوق" },
-  { key: "delivery", titleEn: "Fast delivery", titleAr: "تسليم سريع" },
-  { key: "support", titleEn: "WhatsApp support", titleAr: "دعم واتساب" },
-  { key: "local", titleEn: "Jordan focused", titleAr: "للأردن" }
+  {
+    key: "secure",
+    titleEn: "Verified payment",
+    titleAr: "دفع موثوق",
+    copyEn: "Clear checkout and proof confirmation.",
+    copyAr: "خطوات دفع واضحة مع تأكيد الإثبات.",
+    icon: ShieldCheck,
+    tone: "brand" as const
+  },
+  {
+    key: "delivery",
+    titleEn: "Fast delivery",
+    titleAr: "تسليم سريع",
+    copyEn: "Activation and account handoff with clear timing.",
+    copyAr: "تفعيل أو تسليم الحساب بوقت واضح.",
+    icon: Zap,
+    tone: "success" as const
+  },
+  {
+    key: "support",
+    titleEn: "WhatsApp support",
+    titleAr: "دعم واتساب",
+    copyEn: "Direct help before and after the order.",
+    copyAr: "مساعدة مباشرة قبل الطلب وبعده.",
+    icon: MessageCircle,
+    tone: "whatsapp" as const
+  },
+  {
+    key: "local",
+    titleEn: "Jordan focused",
+    titleAr: "مخصص للأردن",
+    copyEn: "Local payment flow built around CliQ.",
+    copyAr: "تجربة شراء محلية مبنية على CliQ.",
+    icon: MapPin,
+    tone: "warm" as const
+  }
 ] as const;
 
 export function HomeTrustStrip({ locale }: { locale: Locale }) {
   return (
-    <section className="border-y border-line bg-surface/70 backdrop-blur-sm transition-colors duration-300">
+    <section className="pb-6">
       <div className="container-page">
-        <div className="grid grid-cols-2 gap-4 py-6 md:grid-cols-4">
-          {items.map((item) => (
-            <div key={item.key} className="flex flex-col items-center gap-3 text-center md:flex-row md:justify-center md:text-start">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-background text-brand shadow-sm">
-                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[1.9]">
-                  {item.key === "secure" ? (
-                    <path d="M12 3l7 3v5c0 4.2-2.7 8-7 10-4.3-2-7-5.8-7-10V6l7-3Zm-3 9 2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
-                  ) : item.key === "delivery" ? (
-                    <path d="M4 7h11v8H4V7Zm11 3h3l2 2v3h-5v-5Zm-7 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z" strokeLinecap="round" strokeLinejoin="round" />
-                  ) : item.key === "support" ? (
-                    <path d="M8 19l-3 2v-4a8 8 0 1 1 3 2Z" strokeLinecap="round" strokeLinejoin="round" />
-                  ) : (
-                    <>
-                      <circle cx="12" cy="12" r="8.5" />
-                      <path d="M12 7.5v9M7.5 12h9" strokeLinecap="round" />
-                    </>
-                  )}
-                </svg>
+        <div className="grid gap-3 rounded-[28px] border border-white/70 bg-white/75 p-4 shadow-premium backdrop-blur md:grid-cols-2 md:p-5 xl:grid-cols-4 dark:border-white/10 dark:bg-white/5">
+          {items.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.key} className="rounded-2xl border border-line/70 bg-surface/70 p-4">
+                <div className="flex items-start gap-3">
+                  <IconFrame tone={item.tone} size="sm">
+                    <Icon className="h-4 w-4" strokeWidth={1.9} />
+                  </IconFrame>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-foreground">{locale === "ar" ? item.titleAr : item.titleEn}</p>
+                    <p className="mt-1 text-sm leading-6 text-muted">{locale === "ar" ? item.copyAr : item.copyEn}</p>
+                  </div>
+                </div>
               </div>
-              <span className="text-sm font-medium text-foreground">{locale === "ar" ? item.titleAr : item.titleEn}</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

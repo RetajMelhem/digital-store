@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { AdminConfirmButton } from "@/components/admin-confirm-button";
+import { AdminNav } from "@/components/admin-nav";
+import { AdminStatusBadge } from "@/components/admin-status-badge";
 import { requireAdmin } from "@/lib/auth";
+import { prisma } from "@/lib/db";
 import { ADMIN_ROUTE } from "@/lib/constants";
 import { reviewModerationSchema } from "@/lib/validators";
-import { AdminNav } from "@/components/admin-nav";
-import { AdminConfirmButton } from "@/components/admin-confirm-button";
-import { AdminStatusBadge } from "@/components/admin-status-badge";
 
 export const dynamic = "force-dynamic";
 
@@ -60,7 +60,8 @@ export default async function AdminReviewsPage({
     <div className="container-page space-y-6 py-10">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-3xl font-black text-foreground">Reviews</h1>
+          <span className="theme-chip">Moderation</span>
+          <h1 className="mt-3 text-3xl font-black text-foreground">Reviews</h1>
           <p className="mt-2 text-muted">Approve, hide, or remove product reviews.</p>
         </div>
         <AdminNav />
@@ -76,7 +77,9 @@ export default async function AdminReviewsPage({
         <select name="productId" className="input" defaultValue={productId}>
           <option value="">All products</option>
           {products.map((product) => (
-            <option key={product.id} value={product.id}>{product.nameEn}</option>
+            <option key={product.id} value={product.id}>
+              {product.nameEn}
+            </option>
           ))}
         </select>
         <button className="btn-primary">Apply</button>
@@ -108,11 +111,7 @@ export default async function AdminReviewsPage({
                 <button className="btn-secondary">Mark Pending</button>
               </form>
               <form>
-                <AdminConfirmButton
-                  className="btn-secondary"
-                  formAction={deleteReview.bind(null, review.id)}
-                  message="Delete this review permanently?"
-                >
+                <AdminConfirmButton className="btn-secondary" formAction={deleteReview.bind(null, review.id)} message="Delete this review permanently?">
                   Delete
                 </AdminConfirmButton>
               </form>

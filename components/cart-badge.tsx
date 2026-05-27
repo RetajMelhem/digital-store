@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { Locale } from "@/lib/constants";
 
@@ -12,15 +13,11 @@ export function CartBadge({ locale }: { locale: Locale }) {
     <Link
       href={`/${locale}/cart`}
       aria-label={fullLabel}
-      className="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-surface text-foreground shadow-sm transition hover:bg-surface-muted"
+      className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/70 bg-white/80 text-foreground shadow-premium transition hover:-translate-y-0.5 hover:bg-white dark:border-white/10 dark:bg-white/5 sm:h-11 sm:w-11"
     >
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-current stroke-[1.9]">
-        <circle cx="9" cy="20" r="1.5" />
-        <circle cx="18" cy="20" r="1.5" />
-        <path d="M3 4h2l2.2 9.2a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 7H7" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+      <ShoppingCart aria-hidden="true" className="h-5 w-5 shrink-0" strokeWidth={1.9} />
       {count > 0 ? (
-        <span className="absolute -right-1 -top-1 inline-flex min-w-5 items-center justify-center rounded-full bg-brand px-1.5 text-[10px] font-bold leading-5 text-white">
+        <span className="absolute -right-1 -top-1 inline-flex min-w-5 items-center justify-center rounded-full border border-white/80 bg-brand px-1.5 text-[10px] font-bold leading-5 text-white shadow-[0_10px_24px_rgba(37,99,235,0.35)] dark:border-slate-950">
           {count}
         </span>
       ) : null}

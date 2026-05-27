@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Globe } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Locale } from "@/lib/constants";
 
@@ -19,14 +20,11 @@ export function LanguageSwitcher({ locale }: { locale: Locale }) {
     <Link
       href={nextUrl}
       aria-label={locale === "ar" ? "Switch language to English" : "Change language to Arabic"}
-      className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl border border-line bg-surface px-3 text-sm font-semibold text-foreground shadow-sm hover:bg-surface-muted"
+      className="inline-flex h-10 shrink-0 items-center justify-center gap-0 rounded-2xl border border-white/70 bg-white/80 px-2.5 text-sm font-semibold text-foreground shadow-premium transition hover:-translate-y-0.5 hover:bg-white dark:border-white/10 dark:bg-white/5 min-[400px]:gap-2 min-[400px]:px-3 sm:h-11"
       onClick={() => saveLocale(target)}
     >
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[1.9]">
-        <circle cx="12" cy="12" r="9" />
-        <path d="M3 12h18M12 3a14.5 14.5 0 0 1 0 18M12 3a14.5 14.5 0 0 0 0 18" strokeLinecap="round" />
-      </svg>
-      <span>{locale === "ar" ? "EN" : "AR"}</span>
+      <Globe aria-hidden="true" className="h-4 w-4" strokeWidth={1.9} />
+      <span className="hidden min-[400px]:inline">{locale === "ar" ? "EN" : "AR"}</span>
     </Link>
   );
 }

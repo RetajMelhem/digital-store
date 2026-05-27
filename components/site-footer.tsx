@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+import { MessageCircle } from "lucide-react";
+import { IconFrame } from "@/components/icon-frame";
 import { Locale } from "@/lib/constants";
 import { dictionary } from "@/lib/i18n";
 
@@ -7,53 +8,45 @@ export function SiteFooter({ locale }: { locale: Locale }) {
   const t = dictionary[locale];
   const whatsappPhone = process.env.WHATSAPP_PHONE || "962776323241";
   const whatsappHref = `https://wa.me/${whatsappPhone.replace(/[^\d]/g, "")}`;
-  const links = [
-    { href: `/${locale}`, label: t.home },
-    { href: `/${locale}/products`, label: t.products },
-    { href: `/${locale}/cart`, label: t.cart }
-  ];
 
   return (
-    <footer className="border-t border-line bg-background/80 pt-16 pb-10 transition-colors duration-300">
-      <div className="container-page grid gap-10 md:grid-cols-2 lg:grid-cols-[1.1fr_0.7fr_0.8fr]">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl">
-              <Image src="/images/our logo/our logo.png" alt={`${t.brand} logo`} width={40} height={40} className="h-full w-full object-contain" />
+    <footer className="border-t border-line/70 bg-transparent pb-28 pt-16 transition-colors duration-300 md:pb-10">
+      <div className="container-page">
+        <div className="grid gap-6 rounded-[32px] border border-white/70 bg-white/80 p-6 shadow-premium backdrop-blur md:grid-cols-[1.1fr_0.9fr] md:p-8 dark:border-white/10 dark:bg-white/5">
+          <div className="space-y-5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-transparent">
+                <Image src="/images/our logo/our logo.png" alt={`${t.brand} logo`} width={44} height={44} className="h-full w-full object-cover" />
+              </div>
+              <div>
+                <p className="text-lg font-semibold tracking-tight text-foreground">{t.brand}</p>
+                <p className="text-sm text-muted">{locale === "ar" ? "منتجات رقمية بسرعة وثقة" : "Fast, trusted digital access"}</p>
+              </div>
             </div>
-            <span className="text-xl font-bold tracking-tight text-foreground">{t.brand}</span>
           </div>
-          <p className="mt-4 max-w-md text-sm leading-7 text-muted">{t.footer}</p>
-          <div className="mt-5 inline-flex items-center gap-3 rounded-full border border-line bg-surface px-4 py-2 text-sm font-medium text-foreground">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-line bg-background text-base">🇯🇴</span>
-            <span>{locale === "ar" ? "متجر رقمي مخصص للأردن" : "Built for customers in Jordan"}</span>
-          </div>
-        </div>
 
-        <div>
-          <h3 className="mb-4 text-base font-semibold text-foreground">{locale === "ar" ? "روابط سريعة" : "Quick links"}</h3>
-          <ul className="space-y-3">
-            {links.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className="text-sm text-muted hover:text-brand">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="mb-4 text-base font-semibold text-foreground">{locale === "ar" ? "الدعم والدفع" : "Support and payment"}</h3>
-          <div className="card p-5">
-            <a href={whatsappHref} target="_blank" rel="noreferrer" dir="ltr" className="inline-flex text-lg font-bold text-brand hover:underline">
-              {whatsappPhone}
-            </a>
-            <p className="mt-4 text-sm leading-7 text-muted">
-              {locale === "ar"
-                ? "الدفع عبر Jordan CliQ، ثم تأكيد الطلب وإثبات الدفع على واتساب."
-                : "Pay with Jordan CliQ, then confirm the order and send proof of payment on WhatsApp."}
-            </p>
+          <div className="md:flex md:items-center md:justify-start md:gap-4 lg:gap-5">
+            <h3 className="shrink-0 text-sm font-semibold uppercase tracking-[0.18em] text-muted">
+              {locale === "ar" ? "الدعم" : "Support"}
+            </h3>
+            <div className="mt-5 md:mt-0 md:min-w-[320px]">
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-3 rounded-2xl border border-line/70 bg-surface px-4 py-3 transition hover:border-emerald-400/40 hover:bg-emerald-500/5"
+              >
+                <IconFrame tone="whatsapp" size="sm">
+                  <MessageCircle className="h-4 w-4" strokeWidth={1.9} />
+                </IconFrame>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">WhatsApp</p>
+                  <p dir="ltr" className="text-sm text-muted">
+                    {whatsappPhone}
+                  </p>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>

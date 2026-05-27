@@ -5,6 +5,19 @@ import { ADMIN_COOKIE, ADMIN_ROUTE } from "@/lib/constants";
 
 const SESSION_TTL_MS = 1000 * 60 * 60 * 12;
 
+function shouldUseSecureCookies() {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (!appUrl) return process.env.NODE_ENV === "production";
+
+  try {
+    const url = new URL(appUrl);
+    const isLocalHost = ["localhost", "127.0.0.1"].includes(url.hostname);
+    return url.protocol === "https:" && !isLocalHost;
+  } catch {
+    return process.env.NODE_ENV === "production";
+  }
+}
+
 function getAdminSessionSecret() {
   const secret = process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_PASSWORD;
   if (!secret) {
@@ -53,7 +66,7 @@ export async function setAdminSessionCookie() {
   cookieStore.set(ADMIN_COOKIE, createAdminSessionToken(), {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: shouldUseSecureCookies(),
     path: "/",
     maxAge: SESSION_TTL_MS / 1000
   });
